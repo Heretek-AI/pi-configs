@@ -24,6 +24,9 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Upgrade npm to v11+ (Required for native OIDC Trusted Publishing)
+        run: npm install -g npm@latest
+
       - name: Install dependencies
         run: npm ci
 
