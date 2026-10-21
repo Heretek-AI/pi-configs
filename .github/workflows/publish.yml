@@ -1,0 +1,38 @@
+name: Publish to NPM (Trusted Publishing with OIDC)
+
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish Package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Mandatory for npm OIDC Trusted Publishing (GA since July 2025)
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run verification checks
+        run: node scripts/verify_mission_completion.js
+
+      - name: Build extension
+        run: npm run build
+
+      - name: Publish to NPM via OIDC with Provenance
+        run: npm publish --provenance --access public
