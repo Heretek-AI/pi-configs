@@ -1,0 +1,15 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Block destructive operations in exploration agent
+      if echo "$PI_TOOL_ARGS" | grep -E "(rm -rf|git reset --hard|drop database)"; then
+        echo "Dangerous command blocked by lsp-type-graph-navigator guard." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'lsp-type-graph-navigator' active. Working directory: $(pwd)"

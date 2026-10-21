@@ -1,0 +1,15 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Block hard reset or force push to protected branches
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push.*(main|master).*--force|git reset --hard origin/(main|master))"; then
+        echo "Safety Violation: Force modification of primary branch is strictly forbidden." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'git-drift-coord' active. Working directory: $(pwd)"

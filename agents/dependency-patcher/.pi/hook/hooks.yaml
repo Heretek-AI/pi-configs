@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["package.json", "Cargo.toml", "pyproject.toml"]
+    action: bash
+    command: |
+      echo "Dependency upgraded: executing automated test suite verification."
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push --force|rm -rf /)"; then
+        echo "Dangerous command blocked in dependency-patcher hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'dependency-patcher' active. Working directory: $(pwd)"

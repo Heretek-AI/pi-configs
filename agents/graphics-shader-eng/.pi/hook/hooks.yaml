@@ -1,0 +1,24 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.vert", "*.frag", "*.comp", "*.glsl", "*.wgsl"]
+    action: bash
+    command: |
+      if [[ "$PI_FILE_PATH" == *.glsl || "$PI_FILE_PATH" == *.vert || "$PI_FILE_PATH" == *.frag ]]; then
+        glslangValidator "$PI_FILE_PATH"
+      elif [[ "$PI_FILE_PATH" == *.wgsl ]]; then
+        naga "$PI_FILE_PATH"
+      fi
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push --force|rm -rf /)"; then
+        echo "Dangerous command blocked in graphics-shader-eng hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'graphics-shader-eng' active. Working directory: $(pwd)"

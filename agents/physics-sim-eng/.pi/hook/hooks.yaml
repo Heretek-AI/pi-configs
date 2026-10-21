@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["physics/**/*"]
+    action: bash
+    command: |
+      echo "Physics source modified: running determinism assertions."
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(npm publish|cargo publish|terraform)"; then
+        echo "Policy Violation: physics-sim-eng is blocked from deployment actions." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'physics-sim-eng' active. Working directory: $(pwd)"

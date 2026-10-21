@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["src/components/**/*.stories.tsx", "tokens/**/*.json"]
+    action: bash
+    command: |
+      npx test-storybook --smoke-test
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(prisma migrate|alembic upgrade|cargo build)"; then
+        echo "Policy Violation: design-system-eng cannot mutate database or systems toolchains." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'design-system-eng' active. Working directory: $(pwd)"

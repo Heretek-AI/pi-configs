@@ -1,0 +1,21 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Block adding dependencies without version pinning
+      if echo "$PI_TOOL_ARGS" | grep -E "(npm i [a-zA-Z0-9_-]+$|pnpm add [a-zA-Z0-9_-]+$)"; then
+        echo "Policy Violation: Unpinned package installation blocked. Explicit versions or ranges required." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["pnpm-lock.yaml", "Cargo.lock"]
+    action: bash
+    command: |
+      git diff --stat "$PI_FILE_PATH"
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'dependency-hygiene-lockfile-surgeon' active. Working directory: $(pwd)"

@@ -1,0 +1,31 @@
+{
+  "proxyMode": true,
+  "lazySpawn": true,
+  "maxTokenCap": 250,
+  "servers": {
+    "mcp-server-redis": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-mcp-server-redis"
+      ],
+      "lazy": true
+    },
+    "kafka-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-kafka-mcp-server"
+      ],
+      "lazy": true
+    },
+    "codebase-memory-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "lazy": true
+    }
+  }
+}

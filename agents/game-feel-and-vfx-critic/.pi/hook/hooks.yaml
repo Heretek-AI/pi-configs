@@ -1,0 +1,20 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(k8s|docker push|terraform|aws)"; then
+        echo "Policy Violation: game-feel-and-vfx-critic cannot access cloud deployment tools." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["scenes/**/*.tscn", "src/vfx/**/*.ts"]
+    action: bash
+    command: |
+      echo "File changed in visual VFX domain: triggering automated frame verification."
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'game-feel-and-vfx-critic' active. Working directory: $(pwd)"

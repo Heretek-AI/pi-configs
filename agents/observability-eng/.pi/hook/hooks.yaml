@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.rules.yaml", "alerts.yaml"]
+    action: bash
+    command: |
+      promtool check rules "$PI_FILE_PATH"
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(terraform destroy|rm -rf /)"; then
+        echo "Dangerous command blocked by observability-eng guard." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'observability-eng' active. Working directory: $(pwd)"

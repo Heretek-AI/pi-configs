@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "codebase-memory-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "lazy": true
+    },
+    "modelcontextprotocol_server-memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "lazy": true
+    }
+  }
+}

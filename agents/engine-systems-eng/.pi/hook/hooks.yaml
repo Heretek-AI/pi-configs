@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["engine/**/*.{cpp,hpp,rs}"]
+    action: bash
+    command: |
+      echo "Engine core mutated: enforcing benchmark check."
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(kubectl|terraform|aws)"; then
+        echo "Policy Violation: engine-systems-eng cannot invoke cloud management tools." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'engine-systems-eng' active. Working directory: $(pwd)"

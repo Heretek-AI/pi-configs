@@ -1,0 +1,15 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Block accidental deletion or destructive actions during incident triage
+      if echo "$PI_TOOL_ARGS" | grep -E "(rm -rf /|drop database|systemctl stop)"; then
+        echo "Dangerous command blocked in sre-incident-eng triage session." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'sre-incident-eng' active. Working directory: $(pwd)"

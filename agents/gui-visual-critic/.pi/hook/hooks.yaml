@@ -1,0 +1,21 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Block write attempts to backend or infrastructure files
+      if echo "$PI_TOOL_ARGS" | grep -E "(prisma|alembic|terraform|k8s|server/|backend/)"; then
+        echo "Policy Violation: gui-visual-critic is restricted from mutating backend infrastructure." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.css", "*.tsx", "*.html"]
+    action: bash
+    command: |
+      node ./skills/taste-skill/scripts/inspect.mjs --url "http://localhost:3000" --viewport 1440x900
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'gui-visual-critic' active. Working directory: $(pwd)"

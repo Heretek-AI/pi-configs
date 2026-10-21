@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["pacts/**/*.json", "tests/contracts/**/*.ts"]
+    action: bash
+    command: |
+      echo "Contract test modified: validating contract schema."
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(drop table|rm -rf /|git push --force)"; then
+        echo "Dangerous command blocked in api-contract-tester hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'api-contract-tester' active. Working directory: $(pwd)"

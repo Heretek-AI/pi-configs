@@ -1,0 +1,20 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(terraform|kubectl|docker push)"; then
+        echo "Policy Violation: ai-red-teamer cannot execute cloud infrastructure deployments." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["prompts/**/*.txt", "config/llm/**"]
+    action: bash
+    command: |
+      echo "LLM prompt or config modified: running promptfoo vulnerability regression."
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'ai-red-teamer' active. Working directory: $(pwd)"

@@ -1,0 +1,26 @@
+{
+  "name": "system-architect",
+  "displayName": "Enterprise System Architect & ADR Owner",
+  "guild": "Executive, Product & Documentation Guild",
+  "model": "claude-3.7-sonnet",
+  "thinking": {
+    "level": "extended",
+    "budgetTokens": "24000"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit",
+    "subagents"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

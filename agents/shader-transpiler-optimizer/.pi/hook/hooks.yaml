@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["shaders/**/*.spv", "shaders/**/*.wgsl"]
+    action: bash
+    command: |
+      spirv-val "$PI_FILE_PATH" || true
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push --force|rm -rf /)"; then
+        echo "Dangerous command blocked in shader-transpiler-optimizer hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'shader-transpiler-optimizer' active. Working directory: $(pwd)"

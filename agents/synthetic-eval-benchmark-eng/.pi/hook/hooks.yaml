@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["evals/**/*.json", "evals/**/*.yaml"]
+    action: bash
+    command: |
+      python -m json.tool "$PI_FILE_PATH" > /dev/null || true
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push --force|rm -rf /)"; then
+        echo "Dangerous command blocked in synthetic-eval-benchmark-eng hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'synthetic-eval-benchmark-eng' active. Working directory: $(pwd)"

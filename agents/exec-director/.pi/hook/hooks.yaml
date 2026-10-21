@@ -1,0 +1,22 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Block any bash write command mutating source code files
+      if echo "$PI_TOOL_ARGS" | grep -E "(npm install|cargo build|make|git commit|rm -rf|prisma)"; then
+        echo "Policy Violation: exec-director possesses read-only operational privileges." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.ts", "*.rs", "*.py", "*.go", "*.cpp"]
+    action: bash
+    command: |
+      echo "Policy Violation: exec-director is blocked from mutating source code." >&2
+      exit 2
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'exec-director' active. Working directory: $(pwd)"

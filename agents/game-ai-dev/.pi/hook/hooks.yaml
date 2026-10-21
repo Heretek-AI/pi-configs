@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["ai/**/*.json", "ai/**/*.yaml", "scripts/ai/**"]
+    action: bash
+    command: |
+      echo "AI behavior changed: validating syntax and cycles."
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push --force|rm -rf /)"; then
+        echo "Dangerous command blocked in game-ai-dev hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'game-ai-dev' active. Working directory: $(pwd)"

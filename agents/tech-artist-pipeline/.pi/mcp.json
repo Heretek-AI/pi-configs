@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "modelcontextprotocol_server-filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-modelcontextprotocol_server-filesystem"
+      ],
+      "lazy": true
+    },
+    "cyanheads_git-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cyanheads/git-mcp-server"
+      ],
+      "lazy": true
+    }
+  }
+}

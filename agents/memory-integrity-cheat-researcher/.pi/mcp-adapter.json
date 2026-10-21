@@ -1,0 +1,22 @@
+{
+  "proxyMode": true,
+  "lazySpawn": true,
+  "maxTokenCap": 250,
+  "servers": {
+    "radare2-mcp": {
+      "command": "r2mcp",
+      "args": [
+        "-s"
+      ],
+      "lazy": true
+    },
+    "codebase-memory-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "lazy": true
+    }
+  }
+}

@@ -1,0 +1,14 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [write_file, edit_file]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -v -E "(docs/audits|scratchpad|\.md)"; then
+        echo "Policy Violation: adversarial-diff-auditor is an inspection agent and cannot modify codebase source files." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'adversarial-diff-auditor' active. Working directory: $(pwd)"

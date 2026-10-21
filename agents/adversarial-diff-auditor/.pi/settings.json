@@ -1,0 +1,27 @@
+{
+  "name": "adversarial-diff-auditor",
+  "displayName": "Adversarial Diff Auditor & Codebase Watchdog",
+  "guild": "Data, Machine Learning & Code Hygiene Guild",
+  "model": "claude-3.7-sonnet",
+  "thinking": {
+    "level": "extended",
+    "budgetTokens": "16384"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit",
+    "bash",
+    "subagents"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "memory-integrity-cheat-researcher",
+  "displayName": "Memory Integrity & Runtime Hooking Researcher",
+  "guild": "Game Engineering, Graphics & Modding Guild",
+  "model": "claude-3.7-sonnet",
+  "thinking": {
+    "level": "high",
+    "budgetTokens": "16000"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit",
+    "bash"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

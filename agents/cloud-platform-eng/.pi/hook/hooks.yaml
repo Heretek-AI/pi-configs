@@ -1,0 +1,21 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.tf", "*.tofu"]
+    action: bash
+    command: |
+      tofu fmt "$PI_FILE_PATH" && tflint "$PI_FILE_PATH"
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Block auto-applying terraform changes without plan review
+      if echo "$PI_TOOL_ARGS" | grep -E "(tofu apply -auto-approve|terraform apply -auto-approve|terraform destroy)"; then
+        echo "Safety Violation: Auto-approved apply/destroy is strictly forbidden in local agent runs." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'cloud-platform-eng' active. Working directory: $(pwd)"

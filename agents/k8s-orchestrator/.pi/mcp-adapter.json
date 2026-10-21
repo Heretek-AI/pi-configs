@@ -1,0 +1,31 @@
+{
+  "proxyMode": true,
+  "lazySpawn": true,
+  "maxTokenCap": 250,
+  "servers": {
+    "mcp-server-kubernetes": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-mcp-server-kubernetes"
+      ],
+      "lazy": true
+    },
+    "docker-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-docker-mcp"
+      ],
+      "lazy": true
+    },
+    "codebase-memory-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "lazy": true
+    }
+  }
+}

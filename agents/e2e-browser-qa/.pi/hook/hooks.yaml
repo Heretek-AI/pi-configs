@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["e2e/**/*.spec.ts", "tests/e2e/**/*.ts"]
+    action: bash
+    command: |
+      npx biome check --apply "$PI_FILE_PATH"
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(terraform|kubectl|docker push)"; then
+        echo "Policy Violation: e2e-browser-qa cannot execute infrastructure deployment tools." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'e2e-browser-qa' active. Working directory: $(pwd)"

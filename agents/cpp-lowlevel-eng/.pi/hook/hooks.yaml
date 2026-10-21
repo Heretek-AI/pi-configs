@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.cpp", "*.hpp", "*.h", "*.cxx"]
+    action: bash
+    command: |
+      clang-format -i "$PI_FILE_PATH"
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push --force|rm -rf /)"; then
+        echo "Dangerous bash command blocked by cpp-lowlevel-eng hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'cpp-lowlevel-eng' active. Working directory: $(pwd)"

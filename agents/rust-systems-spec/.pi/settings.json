@@ -1,0 +1,26 @@
+{
+  "name": "rust-systems-spec",
+  "displayName": "Rust Systems & Memory-Safety Specialist",
+  "guild": "Core Language & Systems Engineering Guild",
+  "model": "claude-3.7-sonnet",
+  "thinking": {
+    "level": "extended",
+    "budgetTokens": "16384"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit",
+    "bash"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

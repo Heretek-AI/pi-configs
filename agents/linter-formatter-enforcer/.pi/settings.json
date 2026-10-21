@@ -1,0 +1,26 @@
+{
+  "name": "linter-formatter-enforcer",
+  "displayName": "Autonomous Linter & Code Formatting Enforcer",
+  "guild": "Data, Machine Learning & Code Hygiene Guild",
+  "model": "claude-3.5-sonnet",
+  "thinking": {
+    "level": "medium",
+    "budgetTokens": "4000"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit",
+    "bash"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

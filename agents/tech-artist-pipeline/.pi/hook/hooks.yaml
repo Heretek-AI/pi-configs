@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["assets/**/*.glb", "assets/**/*.gltf"]
+    action: bash
+    command: |
+      npx gltf-transform inspect "$PI_FILE_PATH"
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(kubectl|docker push|terraform)"; then
+        echo "Policy Violation: tech-artist-pipeline cannot execute infrastructure deployment." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'tech-artist-pipeline' active. Working directory: $(pwd)"

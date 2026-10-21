@@ -1,0 +1,14 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(npm|pip|cargo|go run|rm -rf)"; then
+        echo "Policy Violation: ux-research-analyst possesses analytics-query only bash access." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'ux-research-analyst' active. Working directory: $(pwd)"

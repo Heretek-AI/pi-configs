@@ -1,0 +1,23 @@
+{
+  "proxyMode": true,
+  "lazySpawn": true,
+  "maxTokenCap": 250,
+  "servers": {
+    "prometheus-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-prometheus-mcp-server"
+      ],
+      "lazy": true
+    },
+    "codebase-memory-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "lazy": true
+    }
+  }
+}

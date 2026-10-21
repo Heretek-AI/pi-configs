@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["src/**/*.tsx", "src/**/*.css"]
+    action: bash
+    command: |
+      npx prettier --write "$PI_FILE_PATH"
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(docker|kubectl|terraform|alembic)"; then
+        echo "Policy Violation: ui-ux-designer cannot modify server infrastructure." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'ui-ux-designer' active. Working directory: $(pwd)"

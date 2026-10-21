@@ -1,0 +1,22 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(npm test|cargo test|pytest|go test)"; then
+        echo "Policy Warning: humanizer-and-tone-editor does not execute test suites directly."
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["**/*.md", "**/*.txt"]
+    action: bash
+    command: |
+      # Check for banned AI-slop vocabulary
+      if grep -iE "(delve|tapestry|testament|beacon|plethora|leverage|furthermore|moreover)" "$PI_FILE_PATH"; then
+        echo "Lint Warning: Detected prohibited LLM-slop markers in $PI_FILE_PATH"
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'humanizer-and-tone-editor' active. Working directory: $(pwd)"

@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "codebase-memory-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "lazy": true
+    },
+    "modelcontextprotocol_server-github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cyanheads/git-mcp-server"
+      ],
+      "lazy": true
+    }
+  }
+}

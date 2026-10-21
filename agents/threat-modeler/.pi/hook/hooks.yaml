@@ -1,0 +1,14 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [write_file, edit_file]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -v -E "(docs/threat-models|docs/security|\.md)"; then
+        echo "Policy Violation: threat-modeler is restricted to security documentation deliverables." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'threat-modeler' active. Working directory: $(pwd)"

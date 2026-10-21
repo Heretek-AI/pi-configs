@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["k8s/**/*.yaml", "charts/**/*.yaml"]
+    action: bash
+    command: |
+      kubeconform -strict "$PI_FILE_PATH" || true
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(kubectl delete namespace|kubectl delete all)"; then
+        echo "Dangerous mass deletion blocked by k8s-orchestrator hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'k8s-orchestrator' active. Working directory: $(pwd)"

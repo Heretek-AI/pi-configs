@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.gd"]
+    action: bash
+    command: |
+      gdtoolkit gdformat "$PI_FILE_PATH" || true
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(terraform|kubectl|aws s3)"; then
+        echo "Policy Violation: game-systems-dev cannot execute cloud infrastructure tooling." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'game-systems-dev' active. Working directory: $(pwd)"

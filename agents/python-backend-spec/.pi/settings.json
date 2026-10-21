@@ -1,0 +1,26 @@
+{
+  "name": "python-backend-spec",
+  "displayName": "Python Backend & Systems Specialist",
+  "guild": "Core Language & Systems Engineering Guild",
+  "model": "claude-3.7-sonnet",
+  "thinking": {
+    "level": "high",
+    "budgetTokens": "12000"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit",
+    "bash"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

@@ -1,0 +1,23 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.ts", "*.tsx", "*.js", "*.jsx", "*.json"]
+    action: bash
+    command: |
+      npx @biomejs/biome check --apply "$PI_FILE_PATH"
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.py"]
+    action: bash
+    command: |
+      ruff check --fix "$PI_FILE_PATH" && ruff format "$PI_FILE_PATH"
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.sh", "*.bash"]
+    action: bash
+    command: |
+      shellcheck "$PI_FILE_PATH"
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'linter-formatter-enforcer' active. Working directory: $(pwd)"

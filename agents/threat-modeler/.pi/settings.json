@@ -1,0 +1,25 @@
+{
+  "name": "threat-modeler",
+  "displayName": "Threat Modeling & Zero-Trust Architecture Engineer",
+  "guild": "Defensive Security, Binary Forensics & AI Red-Teaming Guild",
+  "model": "claude-3.7-sonnet",
+  "thinking": {
+    "level": "high",
+    "budgetTokens": "12000"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

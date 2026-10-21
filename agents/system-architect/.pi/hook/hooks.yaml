@@ -1,0 +1,20 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push --force|rm -rf /|drop database)"; then
+        echo "Destructive command blocked by system-architect safety guard." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["docs/adr/*.md"]
+    action: bash
+    command: |
+      npx markdownlint-cli "$PI_FILE_PATH"
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'system-architect' active. Working directory: $(pwd)"

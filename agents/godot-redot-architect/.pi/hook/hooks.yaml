@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.gd"]
+    action: bash
+    command: |
+      gdtoolkit gdformat "$PI_FILE_PATH" && gdtoolkit gdlint "$PI_FILE_PATH"
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(terraform|kubectl|aws)"; then
+        echo "Policy Violation: godot-redot-architect cannot execute cloud infrastructure tools." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'godot-redot-architect' active. Working directory: $(pwd)"

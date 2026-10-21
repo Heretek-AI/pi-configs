@@ -1,0 +1,15 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Enforce execution safety: never execute arbitrary untrusted target binaries directly in shell
+      if echo "$PI_TOOL_ARGS" | grep -E "(chmod \+x.*&& \./|\./target_bin|\.exe)"; then
+        echo "Safety Alert: Direct shell execution of untrusted binary blocked; use headless static decompilation." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'binary-reverse-engineer' active. Working directory: $(pwd)"

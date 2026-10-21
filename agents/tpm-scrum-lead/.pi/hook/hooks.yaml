@@ -1,0 +1,14 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [write_file, edit_file]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -v -E "(\.github|docs/tasks|scratchpad|tasks/)"; then
+        echo "Policy Violation: tpm-scrum-lead may only write to task boards and ticket manifests." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'tpm-scrum-lead' active. Working directory: $(pwd)"

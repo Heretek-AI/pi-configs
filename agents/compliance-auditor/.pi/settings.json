@@ -1,0 +1,26 @@
+{
+  "name": "compliance-auditor",
+  "displayName": "SBOM, Software License & Regulatory Compliance Auditor",
+  "guild": "Defensive Security, Binary Forensics & AI Red-Teaming Guild",
+  "model": "claude-3.5-sonnet",
+  "thinking": {
+    "level": "medium",
+    "budgetTokens": "8000"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit",
+    "bash"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

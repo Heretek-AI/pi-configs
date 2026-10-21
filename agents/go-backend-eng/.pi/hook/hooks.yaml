@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.go"]
+    action: bash
+    command: |
+      gofmt -w "$PI_FILE_PATH"
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(rm -rf /|git push --force)"; then
+        echo "Dangerous bash command blocked by go-backend-eng hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'go-backend-eng' active. Working directory: $(pwd)"

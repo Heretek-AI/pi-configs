@@ -1,0 +1,23 @@
+{
+  "proxyMode": true,
+  "lazySpawn": true,
+  "maxTokenCap": 250,
+  "servers": {
+    "chrome-devtools-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-chrome-devtools-mcp"
+      ],
+      "lazy": true
+    },
+    "executeautomation_playwright-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp"
+      ],
+      "lazy": true
+    }
+  }
+}

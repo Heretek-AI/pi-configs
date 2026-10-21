@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["app/src/**/*.kt"]
+    action: bash
+    command: |
+      ./gradlew ktlintFormat --include="$PI_FILE_PATH" || true
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(publishReleaseBundle|uploadCrashlytics)"; then
+        echo "Policy Violation: Direct production publishing blocked in development session." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'android-mobile-spec' active. Working directory: $(pwd)"

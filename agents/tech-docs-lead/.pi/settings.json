@@ -1,0 +1,25 @@
+{
+  "name": "tech-docs-lead",
+  "displayName": "Technical Documentation Lead & Docs-as-Code Architect",
+  "guild": "Executive, Product & Documentation Guild",
+  "model": "claude-3.5-sonnet",
+  "thinking": {
+    "level": "medium",
+    "budgetTokens": "8000"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

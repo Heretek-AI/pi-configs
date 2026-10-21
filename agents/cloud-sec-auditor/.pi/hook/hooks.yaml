@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.tf", "*.tofu", "k8s/**/*.yaml"]
+    action: bash
+    command: |
+      checkov -f "$PI_FILE_PATH" --framework terraform,kubernetes || true
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(terraform apply|tofu apply)"; then
+        echo "Policy Violation: cloud-sec-auditor performs non-mutating audit inspections only." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'cloud-sec-auditor' active. Working directory: $(pwd)"

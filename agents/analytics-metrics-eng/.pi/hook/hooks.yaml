@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["clickhouse/**/*.sql"]
+    action: bash
+    command: |
+      sqlfluff lint "$PI_FILE_PATH" --dialect clickhouse || true
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -iE "(drop table.*sync|truncate table)"; then
+        echo "Mass deletion blocked by analytics-metrics-eng guard." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'analytics-metrics-eng' active. Working directory: $(pwd)"

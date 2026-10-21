@@ -1,0 +1,21 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["migrations/**/*.sql", "prisma/schema.prisma"]
+    action: bash
+    command: |
+      sqlfluff lint "$PI_FILE_PATH" --dialect postgres || true
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Block destructive DROP TABLE / DATABASE commands in migrations without backward compatibility
+      if echo "$PI_TOOL_ARGS" | grep -iE "(drop database|truncate table|drop table cascade)"; then
+        echo "Dangerous SQL operation blocked by dba-specialist guard." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'dba-specialist' active. Working directory: $(pwd)"

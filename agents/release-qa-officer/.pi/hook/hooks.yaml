@@ -1,0 +1,15 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Block publishing or release tag push if git working tree is dirty
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push.*--tags|gh release create)" && [[ -n $(git status --porcelain) ]]; then
+        echo "Safety Violation: Cannot create release with uncommitted working tree changes." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'release-qa-officer' active. Working directory: $(pwd)"

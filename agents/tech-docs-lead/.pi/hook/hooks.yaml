@@ -1,0 +1,20 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [write_file, edit_file]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "\.(ts|rs|go|cpp|py|java|kt)$"; then
+        echo "Policy Violation: tech-docs-lead is restricted to documentation files (*.md, *.mdx, *.rst)." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["docs/**/*.md", "*.md"]
+    action: bash
+    command: |
+      npx markdownlint-cli2 "$PI_FILE_PATH"
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'tech-docs-lead' active. Working directory: $(pwd)"

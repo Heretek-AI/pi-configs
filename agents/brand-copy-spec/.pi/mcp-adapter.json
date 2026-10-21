@@ -1,0 +1,23 @@
+{
+  "proxyMode": true,
+  "lazySpawn": true,
+  "maxTokenCap": 250,
+  "servers": {
+    "cyanheads_git-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cyanheads/git-mcp-server"
+      ],
+      "lazy": true
+    },
+    "modelcontextprotocol_server-filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-modelcontextprotocol_server-filesystem"
+      ],
+      "lazy": true
+    }
+  }
+}

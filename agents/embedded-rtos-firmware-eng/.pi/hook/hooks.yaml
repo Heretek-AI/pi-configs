@@ -1,0 +1,19 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["firmware/**/*.{c,h,rs}"]
+    action: bash
+    command: |
+      clang-format -i "$PI_FILE_PATH" || true
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(openocd -c 'flash write_image erase'|st-flash write)"; then
+        echo "Policy Warning: Physical hardware flash requires verified image checksum."
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'embedded-rtos-firmware-eng' active. Working directory: $(pwd)"

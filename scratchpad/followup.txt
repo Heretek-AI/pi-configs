@@ -1,0 +1,109 @@
+[AGENT ORCHESTRATION] https://github.com/mavam/pi-agents - Durable named agent graph execution engine with TUI attach/monitor and step checkpointing
+[DIFF REVIEW] https://github.com/robzolkos/pi-slopchop - Terminal-native git diff review and precise line-annotation workflow with FIX vs DISCUSS tags
+[MODEL ADVISOR / DUAL-TIER] https://github.com/philipbrembeck/pi-advisor - Asymmetric Executor/Advisor architecture for steering cheap executor models with frontier advisor reasoning and budget controls
+[SKILLS] https://github.com/magentosh/superpowers - Disciplined TDD and subagent delegation framework alternative to mattpocock/skills
+[ECOSYSTEM] https://github.com/badlogic/pi-mono - Canonical monorepo for Pi coding agent and runtime
+[CONTEXT COMPACTION / CONTINUITY] https://github.com/alpertarhan/pi-smart-compact - EESV (Extract-Explore-Synthesize-Verify) verified context compaction, cache-aware economics, and artifact hygiene
+[AST / STRUCTURAL SEARCH] https://www.npmjs.com/package/@juvio15/pi-ast-grep - Production-ready Pi native extension exposing 6 tools for ast-grep structural AST search, relational rule scanning, safe rewrites, and fast symbol outlines across 28 languages
+[AST / CODE REFACTORING] https://github.com/guyowen/typegraph-mcp - Semantic TypeScript AST typegraph MCP server providing definition tracing, type inference, and blast-radius impact analysis
+[BINARY REVERSE ENGINEERING] https://github.com/LaurieWired/GhidraMCP - Production Ghidra MCP server and plugin supporting interactive and headless binary decompilation, symbol renaming, and cross-reference queries
+[BINARY REVERSE ENGINEERING] https://github.com/radareorg/radare2-mcp - Official C-native MCP stdio/HTTP server for Radare2 with r2ghidra decompilation, sandbox safety locks, and r2pipe integration
+[SECURITY STATIC ANALYSIS] https://github.com/semgrep/semgrep - Official Semgrep MCP server (uvx semgrep-mcp) enabling multi-language security vulnerability audits and custom pattern scanning across 5,000+ rules
+[VULNERABILITY SCANNING] https://github.com/aquasecurity/trivy-mcp - Official Aqua Security Trivy MCP plugin for automated vulnerability, misconfiguration, and software supply chain scanning
+[RUST SECURITY AUDITING] https://github.com/SignalWhisperer/cargo-mcp - Model Context Protocol server exposing isolated Cargo toolchain actions including cargo-audit vulnerability scanning, clippy, and dependency trees
+[CODE GRAPH & INTELLIGENCE] https://github.com/CodeGraphContext/CodeGraphContext - Multi-language codebase knowledge graph MCP server and CLI using Tree-sitter and SCIP indexing to map architectural dependencies and call chains
+[LSP INTELLIGENCE] https://github.com/samfoy/pi-lsp-extension - Pi extension providing full Language Server Protocol integration for go-to-definition, reference discovery, hover signatures, and LSP diagnostics
+[LSP CLIENT] https://github.com/code-yeongyu/pi-lsp-client - Robust Pi LSP client with server pooling, lifecycle reference counting, and interactive /lsp diagnostic management
+[PI-BROWSER] https://github.com/kernel/browser-loop - Reference implementation of Pi provider stream interception and stateful browser coordination.
+[PI-WEB] https://github.com/agent-tools/playwright-mcp - Local open-source alternative providing Playwright browser automation over standard MCP without proprietary cloud dependencies.
+[TASK SUPERVISION / AUDITING] https://github.com/DraconDev/pi-goal-list-loop-audit - Anti-bamboozle detached auditor and goal contract verification pattern (extract core verification flow)
+[GAME-DEV] https://github.com/Donchitos/Claude-Code-Game-Studios - Full studio simulation with 30+ game-dev personas, hooks, and session logging for Godot.
+[GAME-DEV] https://github.com/thedivergentai/game-dev-agentic-skills - 184 granular agentic skills for Godot 4.7+ and Bevy 0.20+ with reverse engineering stubs.
+[THREEJS] https://github.com/majidmanzarpour/threejs-game-skills - Specialized Three.js game development pack with Playwright automated canvas inspection.
+[GAME-DEV] https://github.com/htdt/godogen - Rapid game prototyping toolkit pairing Godot with Python generative AI asset scripts.
+[MULTIPLEXER] https://github.com/herdrdev/herdr - High-performance terminal multiplexer, workspace manager, and git worktree placement engine used by pi-herdsman.
+[CODE RAG / LOCAL KNOWLEDGE] https://github.com/nczz/pi-knowledge - Local-first hybrid RAG with Tree-sitter AST chunking, SQLite FTS5 + vector search, and cross-encoder reranking
+[PARSER/AST] https://github.com/czottmann/unbash - Zero-dependency JavaScript/TypeScript Bash AST parser used for shell command security inspection.
+[PI-AGENT-FLOW] https://github.com/philipbrembeck/pi-advisor - Definitive dual-model advisor/executor architecture for Pi with automatic loop gating and warm prompt cache reuse.
+[AI-RESEARCH] https://arxiv.org/abs/2510.02453 - Foundational paper on steering black-box LLMs using separate advisor critique models.
+[DETERMINISTIC LINTER / SELF-CORRECTION] https://github.com/mackenney/pi-edit-hooks - Post-edit and onStop hook system executing Biome, Ruff, and TSC with automatic Pi turn re-triggering upon linter failures
+[ADVANCED HOOKS / EXECUTION BLOCKER] https://github.com/KristjanPikhof/Pi-YAML-Hooks - Production YAML hook engine supporting tool.before execution blockers, exit-code-2 abort handlers, and prompt cache-warm context injection
+[HUMANIZATION & ANTI-SLOP] https://github.com/jyooi/agent-simple-english - ASD-STE100 technical English & anti-fluff linter with strict Pi say-tool output boundary, commit gate, and AST code comment scanner
+[DETERMINISTIC LINTER / SELF-CORRECTION] https://github.com/DevMortimer/pi-warden - Autonomous guardrail and self-correction engine blocking fake done declarations, code stubs, and destructive shell commands
+[HUMANIZATION & ANTI-SLOP] https://github.com/skew202/antislop - Multi-language AST/regex CLI linter flagging AI shortcuts, stubs, pass/TODO placeholders, and hedging comments
+[HUMANIZATION & ANTI-SLOP] https://github.com/antydizajn/ai-slop-detect - Zero-dependency prose linter detecting LLM clichés ("delve into", "harness"), robotic transitions, and filler words
+[DETERMINISTIC LINTER / SELF-CORRECTION] https://github.com/MattDevy/pi-extensions/tree/main/packages/pi-code-review - Post-turn language-aware code review checklist injector and Haiku-powered severity auditor
+[TDD / PROCESS ENFORCEMENT] https://github.com/MattDevy/pi-extensions/tree/main/packages/pi-red-green - Strict TDD state machine blocking implementation edits until failing unit tests are written and verified
+[HUMANIZATION & ANTI-SLOP] https://github.com/MattDevy/pi-extensions/tree/main/packages/pi-simplify - Diff-scoped simplification engine removing AI code bloat and redundant abstractions without changing functionality
+[TYPESAFETY] https://github.com/DevMortimer/pi-typesafe - Runtime schema verification and parameter validation library built for Pi extensions and tool definitions.
+[VISUAL GUI EVALUATION] https://github.com/microsoft/playwright-cli - Official Microsoft CLI and skills framework for coding agents providing token-efficient headless browser control, multi-session state, and live screencast dashboard
+[VISUAL GUI EVALUATION] https://github.com/microsoft/playwright-mcp - Microsoft official Playwright MCP server with coordinate-based vision mode, accessibility snapshot trees, and automated testing assertions
+[VISION FEEDBACK LOOPS] https://github.com/amitpatole/agent-vision - Machine-graded visual feedback loop (render -> perceive -> report -> fix -> diff) using DOM geometry, computed WCAG contrast, Tesseract OCR, and canvas/WebGL freeze
+[TOKEN-EFFICIENT BROWSING] https://github.com/JuliusBrussee/caveman-browse - Ultra-low token consumption (297 tokens) Go MCP server using compressed accessibility trees and byte-exact CCR recovery for coding agents
+[GAME ENGINE EVALUATION] https://github.com/mrf/godot-stagehand - Playwright-inspired Go MCP server and CI scenario runner for driving running Godot 4.3+ games, capturing frames, and diffing visual baselines
+[3D ASSET INSPECTION] https://github.com/donmccurdy/glTF-Transform - Industry standard CLI and TypeScript SDK for glTF/GLB inspection, draw-call analysis, mesh optimization, and validation
+[UI/UX HEURISTICS & ANTI-SLOP] https://github.com/Manavarya09/design-extract - Headless DOM design system extractor emitting DTCG tokens, WCAG contrast scoring across color pairs, typography scale analysis, and clone visual+motion fidelity diffing with built-in MCP server
+[ACCESSIBILITY AUDIT] https://github.com/pa11y/pa11y-ci - CI-centric automated WCAG contrast and accessibility test runner built on headless Puppeteer
+[REVERSING-MCP] https://github.com/morluto/rea - Flagship universal reverse engineering MCP server & agent skill suite; cherry-pick for on-demand security/reversing profiles.
+[MODEL PROFILE TUI] https://github.com/CinloDev/pi-sdd-profiles - 3-panel Miller columns TUI for hot-swapping subagent models (needs refactor for deletion and Windows bugs)
+[CODE-INTELLIGENCE] https://github.com/redhat-et/ripwire - C++23 zero-dependency AST and blast-radius engine saving ~75% tokens.
+[PI-SECURITY] https://github.com/gotgenes/pi-packages - Enterprise AST-driven permission enforcement system for Pi with subagent prompt forwarding and path symlink sanitization.
+[PI-SUBAGENTS] https://github.com/gotgenes/pi-subagents - Process-isolated subagent runner supporting hierarchical permission delegation.
+[BROWSER] https://github.com/vercel-labs/agent-browser - Ultra-fast Rust-based CDP browser automation CLI for AI agents with compact accessibility snapshots
+[BROWSER] https://github.com/lightpanda-io/browser - Ultra-lightweight headless browser engine in Zig referenced in agent-browser doctor
+[PERSISTENT-INDEX] https://github.com/aoci-spec/aoci-code - Git-versioned FRAS (Function/Read/API/Safety) codebase indexing via Go MCP server.
+[WEB SEARCH / DISCOVERY] https://github.com/joematthews/pi-smart-web-search - Zero-API-key batch web discovery tool for Pi using DuckDuckGo HTML + TLS impersonation and Defuddle
+[AST-EDITING] https://github.com/proxysoul/Empryo - Production ts-morph AST surgical editing and standalone LSP client in TypeScript.
+[AGENTS] https://github.com/wshobson/agents - Canonical 92-plugin multi-harness agent/skill ecosystem with native Pi adapter.
+[AGENTS] https://github.com/anthropics/skills - Official Anthropic skills repository for Claude Code.
+[PI-ORCHESTRATION] https://github.com/wayne930242/pi-straw-boss - Multi-agent swarm dashboard and decentralized intercom coordinator for Herdr terminal multiplexer.
+[AGENT-WEB-REMOTE] https://github.com/juicesharp/rpiv-ask-user-question - Independent terminal question dialog relay allowing remote user confirmations without full Herdr multiplexer coupling.
+[PI-SUBAGENTS] https://github.com/nicobailon/pi-subagents - Original upstream subagent harness benchmarked by GaganSD; compare memory consumption and worktree handling.
+[PI-TUI] https://github.com/GaganSD/pi-extensions - Premier Pi extension monorepo featuring pi-slate and token-optimized subagents.
+[PI-EXTENSION] https://github.com/KristjanPikhof/Pi-YAML-Hooks - Declarative YAML hook automation and tool guards for Pi coding agent.
+[MULTI-AGENT] https://github.com/KristjanPikhof/Pi-Agents-Team - Native multi-agent RPC worker team extension for Pi coding agent.
+[VIDEO] https://github.com/heygen-com/hyperframes - Deterministic HTML/CSS/GSAP to MP4 rendering framework built for AI coding agents
+[VIDEO] https://github.com/remotion-dev/remotion - React-based programmatic video creation alternative
+[EDITOR / POWER TOOLS] https://github.com/d3ara1n/pi-extensions - Monorepo featuring pi-hashline-edit (convergent self-healing line edits), pi-command-palette, and pi-context-include
+[DOCS/API] https://context7.com - Version-specific developer documentation API queryable by coding agents used in supi-web.
+[PI-RESEARCH] https://github.com/Companion-Inc/feynman - Complete AI research scientist distribution built on Pi; cherry-pick scientific literature adapters (arXiv, PubMed, OpenAlex) and paper-audit skills.
+[ALPHA-XIV] https://alphaxiv.org - Direct open commentary platform on arXiv papers natively integrated with agent research pipelines.
+[FLEET-BASELINE] https://github.com/Heretek-AI/Heretek-Crew - 51 least-privilege enterprise agent roles and sidecar specifications ready for Pi migration.
+[UI] https://github.com/tamagui/tamagui - High-performance universal UI component system for React Native and web
+[PI-LSP] https://github.com/nikmmd/pi-lsp-adapter - Lightweight, context-preserving read-only LSP adapter for Pi with response pagination and managed daemon lifecycles.
+[PI-LSP-ALTERNATIVE] https://github.com/samfoy/pi-lsp-extension - Feature-heavy LSP alternative featuring auto-diagnostics and semantic refactor tools.
+[GAME-DEV] https://github.com/morluto/rea - Dedicated binary and artifact reconstruction engine for game architectures.
+[PI-SUBAGENTS] https://github.com/tintinweb/pi-subagents - Premier subagent and deterministic JS workflow orchestration extension for Pi with Claude Code parity.
+[PI-SUBAGENTS-GOTGENES] https://github.com/gotgenes/pi-subagents - Alternative subagent implementation optimized for tree-sitter AST permission delegation.
+[MCP] https://github.com/nicobailon/pi-mcp-adapter - High-efficiency lazy MCP proxy adapter with QuickJS sandboxed batching and keyring auth
+[MCP] https://github.com/irahardianto/pi-mcp-extension - Direct-reflection MCP client for Pi with OAuth callback server (higher token footprint than proxy)
+[CONTEXT COMPRESSION] https://github.com/ranxianglei/billion-context - Universal active context pruning (ACP) proxy with session persistence (heavy, 400+ open issues)
+[SUBAGENTS] https://github.com/nicobailon/pi-subagents - Definitive Pi 1.2.0+ single and multi-agent delegation runtime with detached workers and per-task models
+[WEB RETRIEVAL] https://github.com/nicobailon/pi-web-access - Multi-engine web search, Readability content extraction, PDF/YouTube parsing, and bounded passage index
+[OBSERVABILITY] https://github.com/langfuse/pi-observability-plugin - Official Langfuse OpenTelemetry plugin tracing prompt turns, tokens, costs, and subagent spans
+[REPO DOCUMENTATION] https://github.com/langchain-ai/openwiki - Living codebase memory and claim-verified wiki generation CLI with Pi extension and skills
+[AUTONOMOUS GOAL RUNNER] https://github.com/tmonk/pi-goal-x - Zero-dependency autonomous goal planner, Sisyphus loop, and independent completion auditor
+[AGENT PERSONALITY & ENFORCER] https://github.com/DietrichGebert/ponytail - Lazy senior dev mode suppressing AI overengineering and enforcing minimal diffs with zero dependencies
+[LSP & CODE INTELLIGENCE] https://github.com/apmantza/pi-lens - Complete LSP navigation, NAPI ast-grep structural search, and real-time impact cascade diagnostics
+[SKILLS] https://github.com/obra/superpowers - Authentic Jesse Vincent subagent TDD framework (distinct from magentosh clone)
+[MEDIA] https://github.com/replicate/replicate-javascript - Official direct multi-modal model client without proprietary wrappers
+[SYSTEM-PROMPTS] https://github.com/Heretek-AI/optimized-prompts - Rigorous synthesis of Claude Fable 5.1/Opus 5.5 behavioral prompts for Pi; cherry-pick hooks and guidelines.
+[UI-UX] https://github.com/nextlevelbuilder/ui-ux-pro-max-skill - Offline BM25-powered UI/UX design system search engine over 2.4MB of curated style CSVs.
+[PI-SIMPLIFY] https://github.com/MattDevy/pi-extensions/tree/main/packages/pi-simplify - Clean 246-line git-diff-bounded simplification command for Pi; cherry-pick prompt builder and diff range parser.
+[CODE-REVIEW-SKILL] Custom prompt/skill implementation of git-range bounded code review without external npm package overhead.
+[STANDARDS] https://agentskills.io/specification - Canonical Agent Skills specification reference by Anthropic
+[OFFICE] https://github.com/anthropics/skills/tree/main/skills/xlsx - Definitive ISO/IEC 29500 OpenXML generation and validation suite
+[PROMPT-ARCHIVE] https://github.com/asgeirtj/system_prompts_leaks - Authoritative 70k-star reference corpus of production system prompts (Claude Code, Pi, Codex, Gemini); primary ground truth.
+[PI-HARNESS] https://github.com/Gentleman-Programming/gentle-shell - Organic Driven Development harness for Pi; cherry-pick interactive user-choice questionnaire tools and codegraph import analyzer.
+[PI-PRETTY] https://github.com/heyhuynhgiabuu/pi-pretty - Terminal formatting and styled output library used across gentle-pi components.
+[DESIGN] https://github.com/leonxlnx/taste-skill - Zero-dependency empirical frontend art-direction and CDP inspection skill
+[3D-VIZ] https://github.com/viettranx/3dviz-pro-max - Procedural 3D scene, explainer, and architectural synthesis engine for Three.js r180 with local BM25 blueprint search.
+[SCAFFOLDING-MCP] https://github.com/AgiFlow/aicode-toolkit - AGPL-3.0 enterprise architecture and scaffolding MCP suite; reimplement clean-room MIT pattern in pi-configs.
+[SECURITY] https://github.com/github/awesome-copilot/tree/main/hooks/tool-guardian - Deterministic 20-pattern PreToolUse threat interceptor for AI agents
+[SECURITY] https://github.com/github/awesome-copilot/tree/main/skills/agent-owasp-compliance - Official OWASP Agentic Security Initiative compliance scanner
+[HOOKS-FRAMEWORK] https://github.com/a5c-ai/babysitter - Flagship 1.8k-star universal hook multiplexer and governance engine; extract @a5c-ai/hooks-adapter-pi for in-process hook lifecycle design.
+[MOBILE-DEVTOOL] https://github.com/pranshuchittora/simvyn - Universal iOS/Android mobile devtool & native Pi extension; gold standard for anti-hang CLI wrapping and multimodal screenshot capture.
+[TASK-MANAGEMENT] https://github.com/tintinweb/pi-tasks - Gold standard Claude Code-style task tracking extension for Pi; adopt as mandatory core extension.
+[ASSET-GEN] https://github.com/htdt/godogen - Cross-engine game generator with zero-crossing audio looping, video-to-sprite cyclic trimming, and rembg alpha matting.
+[ASSET-GEN] https://github.com/htdt/godogen_assets - Local GPU-powered game asset generation engine (Qwen-Image, TRELLIS.2, Mixamo, Kimodo motion).
+109: [MODDING] https://github.com/rehan-remade/universal-modder - Autonomous PC game discovery, engine fingerprinting, anti-cheat detection, and mod injection toolchain.

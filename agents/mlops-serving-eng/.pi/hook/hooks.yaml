@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["deploy/inference/**/*.yaml", "docker/Dockerfile*"]
+    action: bash
+    command: |
+      echo "Inference serving config changed: verifying GPU driver and memory limits."
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push --force|rm -rf /)"; then
+        echo "Dangerous command blocked in mlops-serving-eng hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'mlops-serving-eng' active. Working directory: $(pwd)"

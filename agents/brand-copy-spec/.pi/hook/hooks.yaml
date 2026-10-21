@@ -1,0 +1,20 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [write_file, edit_file]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -v -E "(\.json|\.yaml|\.yml|\.md|locales/|i18n/)"; then
+        echo "Policy Violation: brand-copy-spec is only permitted to touch localization and documentation files." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["locales/**/*.json"]
+    action: bash
+    command: |
+      npx jsonlint "$PI_FILE_PATH"
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'brand-copy-spec' active. Working directory: $(pwd)"

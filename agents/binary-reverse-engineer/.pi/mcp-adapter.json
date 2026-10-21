@@ -1,0 +1,30 @@
+{
+  "proxyMode": true,
+  "lazySpawn": true,
+  "maxTokenCap": 250,
+  "servers": {
+    "radare2-mcp": {
+      "command": "r2mcp",
+      "args": [
+        "-s"
+      ],
+      "lazy": true
+    },
+    "LaurieWired_GhidraMCP": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-LaurieWired_GhidraMCP"
+      ],
+      "lazy": true
+    },
+    "modelcontextprotocol_server-filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-modelcontextprotocol_server-filesystem"
+      ],
+      "lazy": true
+    }
+  }
+}

@@ -1,0 +1,21 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["dbt/**/*.sql"]
+    action: bash
+    command: |
+      sqlfluff lint "$PI_FILE_PATH" || true
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Block accidental DROP DATABASE in ETL runs
+      if echo "$PI_TOOL_ARGS" | grep -iE "(drop database|drop schema.*cascade)"; then
+        echo "Dangerous schema destruction blocked by data-pipeline-eng hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'data-pipeline-eng' active. Working directory: $(pwd)"

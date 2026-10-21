@@ -1,0 +1,26 @@
+{
+  "name": "lsp-type-graph-navigator",
+  "displayName": "Semantic LSP & Code Knowledge Graph Navigator",
+  "guild": "Data, Machine Learning & Code Hygiene Guild",
+  "model": "claude-3.7-sonnet",
+  "thinking": {
+    "level": "high",
+    "budgetTokens": "16000"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit",
+    "bash"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

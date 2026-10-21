@@ -1,0 +1,25 @@
+{
+  "name": "humanizer-and-tone-editor",
+  "displayName": "Natural Tone, Voice & Humanization Editor",
+  "guild": "Executive, Product & Documentation Guild",
+  "model": "claude-3.7-sonnet",
+  "thinking": {
+    "level": "high",
+    "budgetTokens": "12000"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

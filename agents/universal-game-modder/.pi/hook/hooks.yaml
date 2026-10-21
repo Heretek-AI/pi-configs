@@ -1,0 +1,21 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      # Enforce anti-cheat guardian: block if target game binary uses online anti-cheat
+      if echo "$PI_TOOL_ARGS" | grep -iE "(easyanticheat|battleye|vanguard|ricochet|denuvo)"; then
+        echo "Safety Violation: Target protected by active anti-cheat. Refusing mod injection." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["mods/**/*.cs"]
+    action: bash
+    command: |
+      dotnet build "$PI_FILE_PATH" || true
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'universal-game-modder' active. Working directory: $(pwd)"

@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "mcp-server-duckdb": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-mcp-server-duckdb"
+      ],
+      "lazy": true
+    },
+    "modelcontextprotocol_server-github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cyanheads/git-mcp-server"
+      ],
+      "lazy": true
+    }
+  }
+}

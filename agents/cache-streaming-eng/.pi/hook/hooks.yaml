@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["config/kafka/**", "config/redis/**"]
+    action: bash
+    command: |
+      echo "Cache/streaming configuration updated: verifying schema compatibility."
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(redis-cli flushall|redis-cli flushdb)"; then
+        echo "Dangerous mass cache flush blocked by cache-streaming-eng hook." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'cache-streaming-eng' active. Working directory: $(pwd)"

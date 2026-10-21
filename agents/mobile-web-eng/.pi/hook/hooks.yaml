@@ -1,0 +1,14 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["src/**/*.tsx", "src/**/*.css"]
+    action: bash
+    command: |
+      # Verify no hardcoded 100vh without dvh fallback
+      if grep -n "100vh" "$PI_FILE_PATH"; then
+        echo "Lint Warning: Hardcoded 100vh detected; prefer dynamic viewport units (100dvh)."
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'mobile-web-eng' active. Working directory: $(pwd)"

@@ -1,0 +1,21 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(terraform|docker|kubectl|tsc|cargo)"; then
+        echo "Policy Violation: product-director cannot execute system compilation or infrastructure commands." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["src/**", "lib/**", "crates/**"]
+    action: bash
+    command: |
+      echo "Policy Violation: product-director cannot alter code files in src/ or lib/." >&2
+      exit 2
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'product-director' active. Working directory: $(pwd)"

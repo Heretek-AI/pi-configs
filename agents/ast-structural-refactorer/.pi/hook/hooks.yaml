@@ -1,0 +1,15 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [ast_grep_rewrite]
+    action: bash
+    command: |
+      # Enforce preview-first refactoring policy: apply=true is blocked without previous dry-run
+      if echo "$PI_TOOL_ARGS" | grep -q '"apply":true' && [[ ! -f ".ast_preview_approved" ]]; then
+        echo "Policy Violation: ast_grep_rewrite with apply=true requires a prior dry-run verification." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'ast-structural-refactorer' active. Working directory: $(pwd)"

@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.rs"]
+    action: bash
+    command: |
+      rustfmt "$PI_FILE_PATH"
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(cargo publish|git push -f)"; then
+        echo "Policy Violation: Unsafe publishing or force push command blocked." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'rust-systems-spec' active. Working directory: $(pwd)"

@@ -1,0 +1,20 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push --force|rm -rf /)"; then
+        echo "Dangerous command blocked in compliance-auditor hook." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["package.json", "Cargo.toml", "pyproject.toml"]
+    action: bash
+    command: |
+      echo "Dependency manifest changed: triggering license compliance scan."
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'compliance-auditor' active. Working directory: $(pwd)"

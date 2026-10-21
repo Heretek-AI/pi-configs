@@ -1,0 +1,14 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [write_file, edit_file]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -v -E "(docs/lore|narrative/|dialogue/|quests/|\.yarn|\.md)"; then
+        echo "Policy Violation: creative-narrative-director may only modify narrative and lore directories." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'creative-narrative-director' active. Working directory: $(pwd)"

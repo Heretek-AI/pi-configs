@@ -1,0 +1,20 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(drop table|kubectl|terraform|rm -rf)"; then
+        echo "Destructive command blocked by a11y-specialist guard." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["src/**/*.tsx", "src/**/*.html"]
+    action: bash
+    command: |
+      npx @axe-core/cli --tags wcag2a,wcag2aa,wcag22aa "$PI_FILE_PATH" || true
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'a11y-specialist' active. Working directory: $(pwd)"

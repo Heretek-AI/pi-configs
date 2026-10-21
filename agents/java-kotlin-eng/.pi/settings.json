@@ -1,0 +1,26 @@
+{
+  "name": "java-kotlin-eng",
+  "displayName": "Java / Kotlin Enterprise Platform Engineer",
+  "guild": "Core Language & Systems Engineering Guild",
+  "model": "claude-3.5-sonnet",
+  "thinking": {
+    "level": "medium",
+    "budgetTokens": "8000"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit",
+    "bash"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks",
+    "npm:@juvio15/pi-ast-grep"
+  ]
+}

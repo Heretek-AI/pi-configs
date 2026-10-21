@@ -1,0 +1,20 @@
+hooks:
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(terraform|kubectl|docker-compose)"; then
+        echo "Policy Violation: fe-perf-eng cannot execute cloud infrastructure commands." >&2
+        exit 2
+      fi
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["package.json", "vite.config.*", "next.config.*"]
+    action: bash
+    command: |
+      npx size-limit
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'fe-perf-eng' active. Working directory: $(pwd)"

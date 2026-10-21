@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.ts", "*.tsx"]
+    action: bash
+    command: |
+      npx biome check --apply "$PI_FILE_PATH"
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(git push --force|rm -rf /|terraform apply)"; then
+        echo "Policy Violation: Blocked dangerous bash command in ts-node-fullstack." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'ts-node-fullstack' active. Working directory: $(pwd)"

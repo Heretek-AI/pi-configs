@@ -1,0 +1,20 @@
+hooks:
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.swift"]
+    action: bash
+    command: |
+      swiftformat "$PI_FILE_PATH"
+  - event: tool.before.*
+    filter:
+      tool: [bash]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(fastlane deliver|xcodebuild -exportArchive)"; then
+        echo "Policy Violation: Automated production deployment blocked without explicit manual sign-off." >&2
+        exit 2
+      fi
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[context-injection] Specialist 'ios-mobile-spec' active. Working directory: $(pwd)"
