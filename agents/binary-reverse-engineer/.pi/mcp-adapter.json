@@ -1,8 +1,25 @@
 {
   "proxyMode": true,
   "lazySpawn": true,
-  "maxTokenCap": 250,
+  "maxTokenCap": 3000,
   "servers": {
+    "rea-agents": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "rea-agents"
+      ],
+      "lazy": true,
+      "toolWhitelist": [
+        "binary_read_headers",
+        "disasm_function",
+        "symbol_resolve",
+        "decompile_function",
+        "xref_trace",
+        "process_attach",
+        "memory_read_range"
+      ]
+    },
     "radare2-mcp": {
       "command": "r2mcp",
       "args": [
@@ -14,15 +31,15 @@
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-LaurieWired_GhidraMCP"
+        "ghidra-mcp"
       ],
       "lazy": true
     },
-    "modelcontextprotocol_server-filesystem": {
+    "codebase-memory-mcp": {
       "command": "npx",
       "args": [
         "-y",
-        "@modelcontextprotocol/server-modelcontextprotocol_server-filesystem"
+        "@modelcontextprotocol/server-memory"
       ],
       "lazy": true
     }

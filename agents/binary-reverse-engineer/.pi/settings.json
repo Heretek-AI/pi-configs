@@ -21,6 +21,7 @@
   "packages": [
     "npm:pi-mcp-adapter",
     "npm:pi-yaml-hooks",
-    "npm:@juvio15/pi-ast-grep"
+    "npm:@juvio15/pi-ast-grep",
+    "npm:pi-lsp-adapter"
   ]
 }

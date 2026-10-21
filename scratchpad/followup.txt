@@ -117,3 +117,21 @@
 [GAME-DEV / GODOT-MCP] https://github.com/IvanMurzak/Godot-MCP - C# Godot 4.3+ MCP editor addon & RQL query engine paired with godot-cli; adopt for game development profiles.
 [GAME-DEV / GODOT] https://github.com/jame581/GodotPrompter - 59 token-budgeted, CI-validated Godot 4.3+ skills with GDScript/C# parity, LimboAI, and Phantom Camera.
 [GAME-DEV / GODOT] https://github.com/bgrenat/godot-game-dev-studio - Curated 188-skill library for Godot 4.7+ with 2,136 CI-compiled GDScript examples and two-stage studio router.
+120: [REVERSE-ENGINEERING] https://github.com/wshobson/agents/tree/main/plugins/reverse-engineering - Production multi-harness security skills for binary analysis, anti-reversing, firmware auditing, and memory forensics with native Pi export.
+[CYBERSECURITY / REVERSE-ENGINEERING] https://github.com/mukul975/anthropic-cybersecurity-skills - 818 production-grade security, reverse-engineering, DFIR, and binary exploitation skills mapped across MITRE ATT&CK v19.1 and NIST CSF (cherry-pick only to avoid context storm)
+[LOW-LEVEL / SYSTEMS] https://github.com/mohitmishra786/low-level-dev-skills - 142 curated systems programming, kernel, and assembly skills for AI coding agents.
+[AI-ENGINEERING] https://github.com/rohitg00/ai-engineering-from-scratch - Flagship 72k-star AI engineering and reverse engineering curriculum with zero-dependency Python implementations.
+[A2A-PROTOCOL] https://github.com/a2a-protocol/specification - Official Agent-to-Agent communication protocol specification analyzed in Lesson 19.
+[REVERSE-ENGINEERING] https://github.com/UndertaleModTool/UndertaleModTool - The canonical GameMaker bytecode and data.win decompiler, disassembler, and asset injection suite.
+[REVERSE-ENGINEERING] https://github.com/SamboyCoding/Cpp2IL - High-performance Unity IL2CPP decompiler and metadata analyzer.
+[REVERSE-ENGINEERING] https://github.com/Perfare/Il2CppDumper - Symbol and struct restoration tool for Unity IL2CPP GameAssembly binaries and global-metadata.
+[GAME-MODDING] https://github.com/UE4SS-RE/RE-UE4SS - Unreal Engine 4/5 live reflection dumper, C++ modding API, and Lua scripting framework.
+[SECURITY-ROUTER] https://github.com/zhaoxuya520/reverse-skill - Flagship 40k-star cybersecurity & reverse engineering skill router with 44 domains, SSoT routing.json, Burp MCP, and evidence-chain governance; adopt as baseline security framework.
+[AI-COMPILER / SECURITY] https://github.com/NeverSight/NeverC - AI-friendly C23 compiler for security research with DynCode pipeline, compile-time string encryption, and 130+ compiler phases
+[BINARY-ANALYSIS / DECOMPILER] https://github.com/NeverSight/NeverD - AI-friendly binary analysis & decompilation engine with 1:1 instruction-level lifting, structured C/LLVM IR output, and libneverd SDK
+[HARDWARE-SECURITY / DMA] https://github.com/ufrisk/pcileech - Canonical PCIe hardware Direct Memory Access (DMA) attack, physical memory acquisition, and forensics framework
+[ANTI-CHEAT / KERNEL] https://github.com/flameteamdev/LavaGuardAC - Open-source layered Windows anti-cheat engine with kernel-mode handle stripping, thread validation, and heuristic memory scanner
+[SECURITY-BENCHMARK] https://github.com/LordNoteworthy/al-khaser - Comprehensive stress-testing client environment with virtually all public anti-debugging, anti-VM, anti-disassembly, and anti-hooking checks
+[DEVIRTUALIZATION / RE] https://github.com/can1357/NoVmp - Dynamic static analysis and devirtualization tool for reconstructing CFGs and deobfuscating VMProtect binaries
+[PRIVILEGE-ESCALATION] https://github.com/hfiref0x/UACME - Definitive research toolchain for Windows User Account Control (UAC) bypasses and privilege escalation mechanisms
+[HWID-RESEARCH / KERNEL] https://github.com/namazso/hdd_serial_spoofer - Reference kernel-level SCSI/IDE query hook for HWID spoofing and anti-cheat research

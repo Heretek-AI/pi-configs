@@ -6,6 +6,16 @@ $env:PI_SKIP_VERSION_CHECK = "1"
 $env:PI_SPECIALIST_SLUG = "binary-reverse-engineer"
 $env:PI_CONFIG_DIR = $PSScriptRoot
 
+# Check for Disassembly & Reverse Engineering Tooling
+$tools = @("r2", "rabin2", "objdump", "ghidra", "frida")
+foreach ($tool in $tools) {
+    if (Get-Command $tool -ErrorAction SilentlyContinue) {
+        Write-Host "[OK] Detected '$tool' in PATH." -ForegroundColor Green
+    } else {
+        Write-Host "[INFO] '$tool' not detected in PATH. Specialist will use Node/TypeScript fallback inspection." -ForegroundColor Yellow
+    }
+}
+
 # Verify local node & pi runtime
 if (-not (Get-Command "pi" -ErrorAction SilentlyContinue)) {
     Write-Warning "'pi' CLI not found on PATH. Ensure @mariozechner/pi-coding-agent is installed."

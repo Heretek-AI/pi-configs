@@ -1,14 +1,41 @@
 hooks:
+  - event: session.start
+    action: bash
+    command: |
+      echo "[binary-reverse-engineer] Active in Defensive Security, Binary Forensics & AI Red-Teaming Guild."
+      echo "[tooling-check] Available RE CLI tools: $(command -v r2 || echo 'no-r2') $(command -v rabin2 || echo 'no-rabin2') $(command -v objdump || echo 'no-objdump')"
+
   - event: tool.before.*
     filter:
       tool: [bash]
     action: bash
     command: |
-      # Enforce execution safety: never execute arbitrary untrusted target binaries directly in shell
-      if echo "$PI_TOOL_ARGS" | grep -E "(chmod \+x.*&& \./|\./target_bin|\.exe)"; then
-        echo "Safety Alert: Direct shell execution of untrusted binary blocked; use headless static decompilation." >&2
+      # Safety Gate 1: Block execution of untrusted binary targets directly on host
+      if echo "$PI_TOOL_ARGS" | grep -E "(chmod \+x.*&& \./|\./target_bin|wine\s+.*\.exe)"; then
+        echo "Safety Alert: Direct host execution of untrusted target binary blocked. Use headless static analysis (r2/Ghidra) or sandboxed emulation." >&2
         exit 2
       fi
+      # Safety Gate 2: Strictly block weaponization payloads and offensive credential tools
+      if echo "$PI_TOOL_ARGS" | grep -iE "(msfvenom|meterpreter|mimikatz|shellcode_inject|cobaltstrike)"; then
+        echo "Policy Violation: Binary reverse engineering specialist strictly refuses to author offensive exploit payloads or weaponized shellcode." >&2
+        exit 2
+      fi
+      # Safety Gate 3: Block cloud infra manipulation
+      if echo "$PI_TOOL_ARGS" | grep -E "(terraform|kubectl|aws\s|gcloud\s|az\s)"; then
+        echo "Policy Violation: binary-reverse-engineer cannot execute cloud infrastructure tools." >&2
+        exit 2
+      fi
+
+  - event: tool.before.*
+    filter:
+      tool: [write, edit]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -iE "(\.exe|\.dll|\.so|\.dylib|\.elf|\.bin)$"; then
+        echo "Policy Violation: Direct in-place modification of compiled binary executables is forbidden. Author relocatable patches (.vcdiff/.ips), decompilation scripts, or memory hooks." >&2
+        exit 2
+      fi
+
   - event: user.prompt.submit
     action: bash
     command: |
