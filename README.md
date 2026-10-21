@@ -10,6 +10,8 @@
 
 Every specialist in this fleet is completely isolated, operating under the **Principle of Least Privilege (PoLP)** with deterministic `exit code 2` hook guards, automated typecheck/linter correction loops, on-demand lazy MCP adapters, and structured AST/LSP code intelligence.
 
+It can be run **standalone** via per-agent launchers or installed globally/locally as an **official Pi Package & Extension** (`@heretek-ai/pi-configs`).
+
 ---
 
 ## 2. Core Architectural Pillars
@@ -63,6 +65,14 @@ Every specialist in this fleet is completely isolated, operating under the **Pri
 
 ```text
 pi-configs/
+|-- dist/                               # Compiled Pi Extension Distribution
+|   |-- index.js                        # Extension entrypoint (registers /fleet, /specialist, dispatch_specialist)
+|   |-- fleet.js                        # Programmatic catalog API for all 70 specialists
+|   `-- types.js                        # TypeScript type declarations
+|-- src/                                # Extension TypeScript Sources
+|   |-- index.ts                        # Slash commands, tools & event lifecycle hooks
+|   |-- fleet.ts                        # Agent directory discovery and charter loader
+|   `-- types.ts                        # Pi runtime interfaces
 |-- agents/                             # 70 Standalone Specialist Directories
 |   |-- <agent-slug>/
 |   |   |-- AGENTS.md                   # Operational charter, domain boundaries & DoD
@@ -89,6 +99,8 @@ pi-configs/
 |   |-- verify_mission_completion.js    # Deterministic 3-gate automated verification suite
 |   |-- clone_and_unpack.ps1            # Staging downloader for skills, repos & npm tarballs
 |   `-- expand_scratchpad.ps1           # Forensic audit expansion and verification script
+|-- package.json                        # Official pi-package manifest
+|-- tsconfig.json                       # TypeScript compiler options
 `-- README.md                           # Master architectural documentation
 ```
 
@@ -202,10 +214,51 @@ The fleet is organized into 8 departmental guilds:
 
 ---
 
-## 5. Quick Start & Launcher Guide
+## 5. Usage & Integration Guide
 
-### 5.1 Launching an Agent
-Each specialist can be launched independently using its scoped launcher script. The launcher verifies the host environment, enforces local configuration bindings, and launches `pi` scoped to that agent's charter:
+### 5.1 Installing as an Official Pi Package
+Install the package directly into Pi:
+
+```bash
+# Global install (available across all projects)
+pi install npm:@heretek-ai/pi-configs
+
+# Project-local install (persisted in .pi/settings.json)
+pi install -l npm:@heretek-ai/pi-configs
+
+# Ephemeral test session without installing
+pi -e npm:@heretek-ai/pi-configs
+```
+
+### 5.2 Slash Commands in Pi Sessions
+Once loaded, the extension provides instant fleet management:
+
+```bash
+# List all 70 specialists across all 8 guilds
+/fleet
+
+# Filter specialists by keyword or guild
+/fleet visual
+/fleet modding
+
+# Dynamically switch the current Pi session charter to any specialist
+/specialist gui-visual-critic
+/specialist godot-redot-architect
+/specialist ast-structural-refactorer
+```
+
+### 5.3 Multi-Agent Task Delegation (`dispatch_specialist`)
+Other Pi agents can use the native `dispatch_specialist` tool to delegate tasks out-of-process:
+
+```json
+{
+  "specialistSlug": "gui-visual-critic",
+  "taskPrompt": "Capture screenshot of http://localhost:3000, inspect WCAG contrast and audit layout hierarchy against strict typography scales."
+}
+```
+
+### 5.4 Standalone Launchers
+Alternatively, launch any specialist directly from the command line:
 
 **On Windows PowerShell:**
 ```powershell
@@ -217,7 +270,7 @@ Each specialist can be launched independently using its scoped launcher script. 
 ./agents/gui-visual-critic/launch.sh
 ```
 
-### 5.2 Deterministic Verification Suite
+### 5.5 Deterministic Verification Suite
 Run the automated verification suite to validate all 85 forensic audit reports, the alternatives register, and all 70 specialist configurations:
 
 ```bash

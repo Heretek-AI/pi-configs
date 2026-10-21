@@ -1,5 +1,9 @@
-const fs = require('fs');
-const path = require('path');
+import * as fs from 'fs';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const specContent = fs.readFileSync(path.join(__dirname, '../scratchpad/01_SPECIALIST_ROSTER_SPEC.md'), 'utf8');
 
@@ -161,7 +165,6 @@ ${role.selfCorrection}
   if (!cleanedHooksYaml.startsWith('hooks:')) {
     cleanedHooksYaml = `hooks:\n${cleanedHooksYaml}`;
   }
-  // Append user.prompt.submit and standard hygiene if not present
   if (!cleanedHooksYaml.includes('user.prompt.submit')) {
     cleanedHooksYaml += `\n  - event: user.prompt.submit\n    action: bash\n    command: |\n      echo "[context-injection] Specialist '${role.slug}' active. Working directory: $(pwd)"`;
   }
@@ -275,14 +278,11 @@ Provides concrete step-by-step guidance, automated checks, and command reference
 import { type PiRuntime, type ToolContext } from '@mariozechner/pi-coding-agent';
 
 export default function registerExtension(pi: PiRuntime) {
-  // Session initialization hook
   pi.on('session.start', async (ctx: ToolContext) => {
     ctx.ui.notify('${role.title} operational in ${role.guild}');
   });
 
-  // Turn verification guard
   pi.on('turn.stop', async (ctx: ToolContext) => {
-    // Deterministic audit logging
     ctx.logger.debug('[${role.slug}] Turn concluded with zero blocking warnings.');
   });
 }
@@ -298,7 +298,6 @@ Write-Host "=== Initializing Specialist: ${role.title} [${role.slug}] ==="
 \$env:PI_SPECIALIST_SLUG = "${role.slug}"
 \$env:PI_CONFIG_DIR = \$PSScriptRoot
 
-# Verify local node & pi runtime
 if (-not (Get-Command "pi" -ErrorAction SilentlyContinue)) {
     Write-Warning "'pi' CLI not found on PATH. Ensure @mariozechner/pi-coding-agent is installed."
     Write-Host "Running local fallback check via npx..."

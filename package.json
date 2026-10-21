@@ -1,0 +1,64 @@
+{
+  "name": "@heretek-ai/pi-configs",
+  "version": "1.0.0",
+  "description": "Autonomous Standalone Specialist Fleet & Multi-Agent Architecture (70 Agents) for Pi Coding Agent",
+  "type": "module",
+  "license": "MIT",
+  "author": "Heretek AI",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Heretek-AI/pi-configs.git"
+  },
+  "keywords": [
+    "pi",
+    "pi-package",
+    "pi-extension",
+    "pi-coding-agent",
+    "multi-agent",
+    "ai-agents",
+    "agent-fleet",
+    "code-intelligence",
+    "subagents",
+    "developer-tools"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./fleet": {
+      "types": "./dist/fleet.d.ts",
+      "default": "./dist/fleet.js"
+    }
+  },
+  "files": [
+    "dist",
+    "agents",
+    "scratchpad/00_OVERLAP_DECISION_MATRIX.md",
+    "scratchpad/01_SPECIALIST_ROSTER_SPEC.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": [
+      "./dist/index.js"
+    ]
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": ">=1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@mariozechner/pi-coding-agent": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "build": "npx -p typescript tsc",
+    "test": "node scripts/verify_mission_completion.js"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5"
+  }
+}
