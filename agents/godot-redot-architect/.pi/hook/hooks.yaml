@@ -1,19 +1,44 @@
 hooks:
-  - event: file.changed
-    filter:
-      matchesCodeFiles: ["*.gd"]
+  - event: session.start
     action: bash
     command: |
-      gdtoolkit gdformat "$PI_FILE_PATH" && gdtoolkit gdlint "$PI_FILE_PATH"
+      if [ ! -f "project.godot" ]; then
+        echo "[godot-redot-architect] Note: No project.godot found in current root. Running in standalone architectural mode."
+      else
+        echo "[godot-redot-architect] Active Godot/Redot project detected: $(pwd)/project.godot"
+      fi
+
+  - event: tool.before.*
+    filter:
+      tool: [write, edit]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -E "(\.godot/|\.import/)"; then
+        echo "Policy Violation: Direct editing of internal .godot/ or .import/ engine cache is strictly forbidden. Allow the engine to rebuild cache files." >&2
+        exit 2
+      fi
+
   - event: tool.before.*
     filter:
       tool: [bash]
     action: bash
     command: |
-      if echo "$PI_TOOL_ARGS" | grep -E "(terraform|kubectl|aws)"; then
+      if echo "$PI_TOOL_ARGS" | grep -E "(terraform|kubectl|aws|gcloud|az\s)"; then
         echo "Policy Violation: godot-redot-architect cannot execute cloud infrastructure tools." >&2
         exit 2
       fi
+
+  - event: file.changed
+    filter:
+      matchesCodeFiles: ["*.gd"]
+    action: bash
+    command: |
+      if command -v godot >/dev/null 2>&1; then
+        godot --headless --check-only -s "$PI_FILE_PATH" 2>&1 | grep -E "(ERROR|SCRIPT ERROR)" && exit 1 || true
+      elif command -v gdtoolkit >/dev/null 2>&1; then
+        gdtoolkit gdlint "$PI_FILE_PATH"
+      fi
+
   - event: user.prompt.submit
     action: bash
     command: |

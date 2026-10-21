@@ -107,3 +107,13 @@
 [ASSET-GEN] https://github.com/htdt/godogen - Cross-engine game generator with zero-crossing audio looping, video-to-sprite cyclic trimming, and rembg alpha matting.
 [ASSET-GEN] https://github.com/htdt/godogen_assets - Local GPU-powered game asset generation engine (Qwen-Image, TRELLIS.2, Mixamo, Kimodo motion).
 109: [MODDING] https://github.com/rehan-remade/universal-modder - Autonomous PC game discovery, engine fingerprinting, anti-cheat detection, and mod injection toolchain.
+110: [GODOT-MCP] https://github.com/hi-godot/godot-ai - Flagship production MCP server and Godot 4.7+ EditorPlugin with mutual HMAC protocol, multi-session attach, and 46 tools.
+[GAME-ACCESSIBILITY] https://accesskit.dev - Open-source, multi-platform UI accessibility tree infrastructure supporting screen readers in Godot, Rust, and custom engines.
+[GAME-ACCESSIBILITY] https://github.com/dominicbytes/game-accessibility-skill - Comprehensive 319-option game accessibility skill with signal routing and Godot/Redot/Unity drop-in engines.
+[GODOT-MCP] https://github.com/tugcantopaloglu/godot-mcp - 157-tool Godot 4.x MCP server with live TCP runtime evaluation and headless scene control
+[GODOT] https://github.com/mrf/godot-stagehand - Go-based Playwright-inspired scenario runner and MCP server for Godot 4.3+
+113: [GAME-BASELINE] https://github.com/dominicbytes/game-baseline-skill - Disciplined B01-B17 technical hygiene checklist, automated headless project verification, and Redot/Godot baseline engine template
+114: [GAME-BASELINE-TEMPLATE] https://github.com/TakunHiwatari/RedotJamTemplate - Canonical game jam baseline template for Redot 4.x/Godot with audio buses, options, and responsive UI architecture
+[GAME-DEV / GODOT-MCP] https://github.com/IvanMurzak/Godot-MCP - C# Godot 4.3+ MCP editor addon & RQL query engine paired with godot-cli; adopt for game development profiles.
+[GAME-DEV / GODOT] https://github.com/jame581/GodotPrompter - 59 token-budgeted, CI-validated Godot 4.3+ skills with GDScript/C# parity, LimboAI, and Phantom Camera.
+[GAME-DEV / GODOT] https://github.com/bgrenat/godot-game-dev-studio - Curated 188-skill library for Godot 4.7+ with 2,136 CI-compiled GDScript examples and two-stage studio router.

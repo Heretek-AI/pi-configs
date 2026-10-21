@@ -1,8 +1,33 @@
 {
   "proxyMode": true,
   "lazySpawn": true,
-  "maxTokenCap": 250,
+  "maxTokenCap": 4000,
   "servers": {
+    "godot-ai": {
+      "command": "uvx",
+      "args": [
+        "godot-ai",
+        "attach"
+      ],
+      "env": {
+        "GODOT_AI_PORT": "9500"
+      },
+      "lazy": false
+    },
+    "godot-mcp-headless": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "godot-mcp"
+      ],
+      "lazy": true,
+      "toolWhitelist": [
+        "validate_script",
+        "get_project_structure",
+        "run_scene_headless",
+        "get_node_hierarchy"
+      ]
+    },
     "codebase-memory-mcp": {
       "command": "npx",
       "args": [
