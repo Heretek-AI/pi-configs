@@ -3,9 +3,6 @@ name: Publish to NPM (Trusted Publishing with OIDC)
 on:
   release:
     types: [published]
-  push:
-    tags:
-      - 'v*'
   workflow_dispatch:
 
 jobs:
@@ -36,5 +33,13 @@ jobs:
       - name: Build extension
         run: npm run build
 
+      - name: Clear conflicting .npmrc
+        run: rm -f ~/.npmrc
+
       - name: Publish to NPM via OIDC with Provenance
-        run: npm publish --provenance --access public
+        run: |
+          npm publish --provenance --access public --verbose || {
+            echo "::error::Publish failed. Printing debug log:"
+            cat /home/runner/.npm/_logs/*-debug-0.log || true
+            exit 1
+          }
