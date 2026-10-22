@@ -48,5 +48,8 @@ export interface PiRuntime {
         execute?: (params: any, ctx: ExtensionCommandContext) => Promise<any> | any;
     }): void;
     on(event: string, handler: (event: any, ctx: ExtensionCommandContext) => Promise<any> | any): () => void;
+    registerMcpServer?(name: string, config: unknown): void;
+    unregisterMcpServer?(name: string): void;
+    getMcpServers?(): unknown[];
 }
 //# sourceMappingURL=types.d.ts.map

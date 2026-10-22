@@ -43,4 +43,17 @@ export function loadSpecialistSettings(slug) {
     }
     return null;
 }
+export function loadSpecialistMcpConfig(slug) {
+    const agentsDir = getAgentsDirectory();
+    const filePath = path.join(agentsDir, slug, '.pi', 'mcp.json');
+    if (fs.existsSync(filePath)) {
+        try {
+            return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        }
+        catch {
+            return null;
+        }
+    }
+    return null;
+}
 //# sourceMappingURL=fleet.js.map

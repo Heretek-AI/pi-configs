@@ -45,3 +45,16 @@ export function loadSpecialistSettings(slug: string): Record<string, unknown> | 
   }
   return null;
 }
+
+export function loadSpecialistMcpConfig(slug: string): Record<string, any> | null {
+  const agentsDir = getAgentsDirectory();
+  const filePath = path.join(agentsDir, slug, '.pi', 'mcp.json');
+  if (fs.existsSync(filePath)) {
+    try {
+      return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}

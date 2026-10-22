@@ -2,11 +2,42 @@ import { spawn } from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
 import { fileURLToPath } from 'url';
-import { getAgentsDirectory, listSpecialists, loadSpecialistCharter, loadSpecialistSettings } from './fleet.js';
+import { getAgentsDirectory, listSpecialists, loadSpecialistCharter, loadSpecialistSettings, loadSpecialistMcpConfig } from './fleet.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-export { getAgentsDirectory, listSpecialists, loadSpecialistCharter, loadSpecialistSettings };
+export { getAgentsDirectory, listSpecialists, loadSpecialistCharter, loadSpecialistSettings, loadSpecialistMcpConfig };
 let activeSpecialist = null;
+let activeSpecialistMcpServers = [];
+export function switchSpecialistMcp(pi, slug) {
+    // 1. Cleanly unregister previously registered specialist MCP servers
+    if (typeof pi.unregisterMcpServer === 'function') {
+        for (const serverName of activeSpecialistMcpServers) {
+            try {
+                pi.unregisterMcpServer(serverName);
+            }
+            catch (err) {
+                // Ignore unregister errors during swap
+            }
+        }
+    }
+    activeSpecialistMcpServers = [];
+    // 2. Load and register new specialist's MCP servers
+    const mcpData = loadSpecialistMcpConfig(slug);
+    if (mcpData && typeof mcpData === 'object' && mcpData.mcpServers && typeof pi.registerMcpServer === 'function') {
+        for (const [name, rawConfig] of Object.entries(mcpData.mcpServers)) {
+            try {
+                const cleanConfig = { ...rawConfig };
+                delete cleanConfig.lazy; // strip legacy flags
+                pi.registerMcpServer(name, cleanConfig);
+                activeSpecialistMcpServers.push(name);
+            }
+            catch (err) {
+                console.error(`Failed to register MCP server "${name}" for specialist "${slug}":`, err);
+            }
+        }
+    }
+    return activeSpecialistMcpServers.length;
+}
 export default function registerExtension(pi) {
     // 1. Session start notification & footer status
     pi.on('session_start', async (_event, ctx) => {
@@ -68,11 +99,13 @@ export default function registerExtension(pi) {
                         const settings = loadSpecialistSettings(chosenSlug);
                         const displayName = settings && typeof settings['displayName'] === 'string' ? settings['displayName'] : chosenSlug;
                         activeSpecialist = { slug: chosenSlug, displayName, charter };
+                        const mcpCount = switchSpecialistMcp(pi, chosenSlug);
                         if (ctx.ui?.setStatus) {
                             ctx.ui.setStatus('specialist', `Specialist: ${chosenSlug}`);
                         }
+                        const mcpMsg = mcpCount > 0 ? ` (${mcpCount} MCP server${mcpCount === 1 ? '' : 's'} connected)` : '';
                         if (ctx.ui?.notify) {
-                            ctx.ui.notify(`Specialist Activated: ${displayName} [${chosenSlug}]`, 'info');
+                            ctx.ui.notify(`Specialist Activated: ${displayName} [${chosenSlug}]${mcpMsg}`, 'info');
                         }
                     }
                 }
@@ -117,11 +150,13 @@ export default function registerExtension(pi) {
             const settings = loadSpecialistSettings(slug);
             const displayName = settings && typeof settings['displayName'] === 'string' ? settings['displayName'] : slug;
             activeSpecialist = { slug, displayName, charter };
+            const mcpCount = switchSpecialistMcp(pi, slug);
             if (ctx.ui?.setStatus) {
                 ctx.ui.setStatus('specialist', `Specialist: ${slug}`);
             }
+            const mcpMsg = mcpCount > 0 ? ` (${mcpCount} MCP server${mcpCount === 1 ? '' : 's'} connected)` : '';
             if (ctx.ui?.notify) {
-                ctx.ui.notify(`Specialist Activated: ${displayName} [${slug}]`, 'info');
+                ctx.ui.notify(`Specialist Activated: ${displayName} [${slug}]${mcpMsg}`, 'info');
             }
         }
     });
