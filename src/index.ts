@@ -20,8 +20,7 @@ export default function registerExtension(pi: PiRuntime): void {
   });
 
   // 2. Command: /fleet
-  pi.registerCommand({
-    name: 'fleet',
+  pi.registerCommand('fleet', {
     description: 'Display all 70 autonomous specialists in the Heretek Pi Fleet',
     handler: async (args: string, ctx: PiToolContext) => {
       const specialists = listSpecialists();
@@ -46,8 +45,7 @@ export default function registerExtension(pi: PiRuntime): void {
   });
 
   // 3. Command: /specialist <slug>
-  pi.registerCommand({
-    name: 'specialist',
+  pi.registerCommand('specialist', {
     description: 'Switch active session system prompt and boundary to a chosen specialist',
     handler: async (args: string, ctx: PiToolContext) => {
       const slug = args ? args.trim() : '';
@@ -96,7 +94,12 @@ export default function registerExtension(pi: PiRuntime): void {
       },
       required: ['specialistSlug', 'taskPrompt']
     },
-    handler: async ({ specialistSlug, taskPrompt, workingDirectory }, ctx: PiToolContext) => {
+    handler: dispatchHandler,
+    execute: dispatchHandler
+  });
+}
+
+async function dispatchHandler({ specialistSlug, taskPrompt, workingDirectory }: { specialistSlug: string; taskPrompt: string; workingDirectory?: string }, ctx: PiToolContext) {
       const agentsDir = getAgentsDirectory();
       const agentDir = path.join(agentsDir, specialistSlug);
 
@@ -166,6 +169,4 @@ export default function registerExtension(pi: PiRuntime): void {
           });
         });
       });
-    }
-  });
 }

@@ -28,16 +28,19 @@ export interface PiToolContext {
 }
 
 export interface PiRuntime {
-  registerCommand(command: {
-    name: string;
-    description: string;
-    handler: (args: string, ctx: PiToolContext) => Promise<void> | void;
-  }): void;
+  registerCommand(
+    name: string,
+    options: {
+      description?: string;
+      handler: (args: string, ctx: PiToolContext) => Promise<void> | void;
+    }
+  ): void;
   registerTool(tool: {
     name: string;
     description: string;
     parameters: Record<string, unknown>;
-    handler: (params: any, ctx: PiToolContext) => Promise<any> | any;
+    handler?: (params: any, ctx: PiToolContext) => Promise<any> | any;
+    execute?: (params: any, ctx: PiToolContext) => Promise<any> | any;
   }): void;
   on(event: string, handler: (ctx: PiToolContext) => Promise<void> | void): void;
 }

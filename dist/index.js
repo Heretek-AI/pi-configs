@@ -13,8 +13,7 @@ export default function registerExtension(pi) {
         ctx.ui.notify(`[pi-configs] Heretek Specialist Fleet v1.0.0 active (${specialists.length} specialists ready). Use /fleet to view roster or /specialist <slug> to switch charters.`);
     });
     // 2. Command: /fleet
-    pi.registerCommand({
-        name: 'fleet',
+    pi.registerCommand('fleet', {
         description: 'Display all 70 autonomous specialists in the Heretek Pi Fleet',
         handler: async (args, ctx) => {
             const specialists = listSpecialists();
@@ -36,8 +35,7 @@ export default function registerExtension(pi) {
         }
     });
     // 3. Command: /specialist <slug>
-    pi.registerCommand({
-        name: 'specialist',
+    pi.registerCommand('specialist', {
         description: 'Switch active session system prompt and boundary to a chosen specialist',
         handler: async (args, ctx) => {
             const slug = args ? args.trim() : '';
@@ -81,70 +79,72 @@ export default function registerExtension(pi) {
             },
             required: ['specialistSlug', 'taskPrompt']
         },
-        handler: async ({ specialistSlug, taskPrompt, workingDirectory }, ctx) => {
-            const agentsDir = getAgentsDirectory();
-            const agentDir = path.join(agentsDir, specialistSlug);
-            if (!fs.existsSync(agentDir)) {
-                return {
-                    status: 'error',
-                    error: `Specialist '${specialistSlug}' does not exist in agents directory.`
-                };
-            }
-            const cwd = workingDirectory && fs.existsSync(workingDirectory) ? workingDirectory : process.cwd();
-            ctx.logger.info(`Dispatching specialist '${specialistSlug}' in ${cwd}`);
-            const isWindows = process.platform === 'win32';
-            const launcher = isWindows ? path.join(agentDir, 'launch.ps1') : path.join(agentDir, 'launch.sh');
-            if (!fs.existsSync(launcher)) {
-                return {
-                    status: 'error',
-                    error: `Launcher script not found at ${launcher}`
-                };
-            }
-            return new Promise((resolve) => {
-                let child;
-                if (isWindows) {
-                    child = spawn('powershell.exe', ['-ExecutionPolicy', 'Bypass', '-File', launcher, '-p', taskPrompt], {
-                        cwd,
-                        env: { ...process.env, PI_SKIP_VERSION_CHECK: '1' }
-                    });
-                }
-                else {
-                    child = spawn('bash', [launcher, '-p', taskPrompt], {
-                        cwd,
-                        env: { ...process.env, PI_SKIP_VERSION_CHECK: '1' }
-                    });
-                }
-                let stdout = '';
-                let stderr = '';
-                child.stdout?.on('data', (d) => { stdout += d.toString(); });
-                child.stderr?.on('data', (d) => { stderr += d.toString(); });
-                child.on('close', (code) => {
-                    if (code === 0) {
-                        resolve({
-                            status: 'success',
-                            specialist: specialistSlug,
-                            exitCode: code,
-                            output: stdout.slice(-8192) // bounded output buffer
-                        });
-                    }
-                    else {
-                        resolve({
-                            status: 'failed',
-                            specialist: specialistSlug,
-                            exitCode: code,
-                            error: stderr.slice(-4096) || stdout.slice(-4096)
-                        });
-                    }
-                });
-                child.on('error', (err) => {
-                    resolve({
-                        status: 'error',
-                        specialist: specialistSlug,
-                        error: err.message
-                    });
-                });
+        handler: dispatchHandler,
+        execute: dispatchHandler
+    });
+}
+async function dispatchHandler({ specialistSlug, taskPrompt, workingDirectory }, ctx) {
+    const agentsDir = getAgentsDirectory();
+    const agentDir = path.join(agentsDir, specialistSlug);
+    if (!fs.existsSync(agentDir)) {
+        return {
+            status: 'error',
+            error: `Specialist '${specialistSlug}' does not exist in agents directory.`
+        };
+    }
+    const cwd = workingDirectory && fs.existsSync(workingDirectory) ? workingDirectory : process.cwd();
+    ctx.logger.info(`Dispatching specialist '${specialistSlug}' in ${cwd}`);
+    const isWindows = process.platform === 'win32';
+    const launcher = isWindows ? path.join(agentDir, 'launch.ps1') : path.join(agentDir, 'launch.sh');
+    if (!fs.existsSync(launcher)) {
+        return {
+            status: 'error',
+            error: `Launcher script not found at ${launcher}`
+        };
+    }
+    return new Promise((resolve) => {
+        let child;
+        if (isWindows) {
+            child = spawn('powershell.exe', ['-ExecutionPolicy', 'Bypass', '-File', launcher, '-p', taskPrompt], {
+                cwd,
+                env: { ...process.env, PI_SKIP_VERSION_CHECK: '1' }
             });
         }
+        else {
+            child = spawn('bash', [launcher, '-p', taskPrompt], {
+                cwd,
+                env: { ...process.env, PI_SKIP_VERSION_CHECK: '1' }
+            });
+        }
+        let stdout = '';
+        let stderr = '';
+        child.stdout?.on('data', (d) => { stdout += d.toString(); });
+        child.stderr?.on('data', (d) => { stderr += d.toString(); });
+        child.on('close', (code) => {
+            if (code === 0) {
+                resolve({
+                    status: 'success',
+                    specialist: specialistSlug,
+                    exitCode: code,
+                    output: stdout.slice(-8192) // bounded output buffer
+                });
+            }
+            else {
+                resolve({
+                    status: 'failed',
+                    specialist: specialistSlug,
+                    exitCode: code,
+                    error: stderr.slice(-4096) || stdout.slice(-4096)
+                });
+            }
+        });
+        child.on('error', (err) => {
+            resolve({
+                status: 'error',
+                specialist: specialistSlug,
+                error: err.message
+            });
+        });
     });
 }
 //# sourceMappingURL=index.js.map

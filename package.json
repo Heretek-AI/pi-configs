@@ -1,6 +1,6 @@
 {
   "name": "@heretek-ai/pi-configs",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Autonomous Standalone Specialist Fleet & Multi-Agent Architecture (70 Agents) for Pi Coding Agent",
   "type": "module",
   "license": "MIT",
