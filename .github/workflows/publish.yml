@@ -34,10 +34,17 @@ jobs:
       - name: Clear conflicting .npmrc
         run: rm -f ~/.npmrc
 
-      - name: Publish to NPM via OIDC with Provenance
+      - name: Publish to NPM via OIDC with Provenance (with retry)
         run: |
-          npm publish --provenance --access public --verbose || {
-            echo "::error::Publish failed. Printing debug log:"
-            cat /home/runner/.npm/_logs/*-debug-0.log || true
-            exit 1
-          }
+          for attempt in 1 2 3; do
+            echo "Attempt $attempt: Publishing to NPM via OIDC..."
+            if npm publish --provenance --access public --verbose; then
+              echo "Successfully published to NPM on attempt $attempt!"
+              exit 0
+            fi
+            echo "Attempt $attempt failed. Backing off for 15s before retry..."
+            sleep 15
+          done
+          echo "::error::Publish failed after 3 attempts. Dumping logs:"
+          cat /home/runner/.npm/_logs/*-debug-0.log || true
+          exit 1
