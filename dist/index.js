@@ -6,58 +6,126 @@ import { getAgentsDirectory, listSpecialists, loadSpecialistCharter, loadSpecial
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 export { getAgentsDirectory, listSpecialists, loadSpecialistCharter, loadSpecialistSettings };
+let activeSpecialist = null;
 export default function registerExtension(pi) {
-    // 1. Session start notification
-    pi.on('session.start', async (ctx) => {
+    // 1. Session start notification & footer status
+    pi.on('session_start', async (_event, ctx) => {
         const specialists = listSpecialists();
-        ctx.ui.notify(`[pi-configs] Heretek Specialist Fleet v1.0.0 active (${specialists.length} specialists ready). Use /fleet to view roster or /specialist <slug> to switch charters.`);
+        if (ctx.ui?.setStatus) {
+            ctx.ui.setStatus('fleet', `Fleet: ${specialists.length} Specialists`);
+        }
+        if (ctx.ui?.notify) {
+            ctx.ui.notify(`Heretek Specialist Fleet loaded (${specialists.length} specialists available). Run /fleet to browse or /specialist <slug> to activate.`, 'info');
+        }
     });
-    // 2. Command: /fleet
+    // 2. Dynamic specialist charter injection via before_agent_start lifecycle hook
+    pi.on('before_agent_start', async (event) => {
+        if (activeSpecialist && event.systemPromptOptions) {
+            const current = event.systemPromptOptions.appendSystemPrompt || [];
+            event.systemPromptOptions.appendSystemPrompt = [
+                ...current,
+                activeSpecialist.charter
+            ];
+        }
+    });
+    // 3. Command: /fleet
     pi.registerCommand('fleet', {
-        description: 'Display all 70 autonomous specialists in the Heretek Pi Fleet',
+        description: 'Display and browse all 70 autonomous specialists in the Heretek Pi Fleet',
         handler: async (args, ctx) => {
             const specialists = listSpecialists();
             if (specialists.length === 0) {
-                ctx.ui.error('No specialists discovered in agents directory.');
+                if (ctx.ui?.notify) {
+                    ctx.ui.notify('No specialists discovered in agents directory.', 'error');
+                }
+                else {
+                    console.error('No specialists discovered in agents directory.');
+                }
                 return;
             }
             const query = args ? args.trim().toLowerCase() : '';
             const matched = query ? specialists.filter(s => s.toLowerCase().includes(query)) : specialists;
-            let output = `=== HERETEK SPECIALIST FLEET (${matched.length} / ${specialists.length} Available) ===\n\n`;
-            for (const slug of matched) {
-                const settings = loadSpecialistSettings(slug);
-                const displayName = settings && typeof settings['displayName'] === 'string' ? settings['displayName'] : slug;
-                const guild = settings && typeof settings['guild'] === 'string' ? settings['guild'] : 'Specialist';
-                output += `• ${slug.padEnd(35)} [${guild}] - ${displayName}\n`;
+            if (matched.length === 0) {
+                if (ctx.ui?.notify) {
+                    ctx.ui.notify(`No specialists matching "${query}". Run /fleet without arguments to see all.`, 'warning');
+                }
+                else {
+                    console.warn(`No specialists matching "${query}".`);
+                }
+                return;
             }
-            output += `\nTo activate a specialist: /specialist <slug>`;
-            ctx.ui.writeBox(output);
+            if (ctx.hasUI && ctx.ui?.select) {
+                const items = matched.map(slug => {
+                    const settings = loadSpecialistSettings(slug);
+                    const displayName = settings && typeof settings['displayName'] === 'string' ? settings['displayName'] : slug;
+                    const guild = settings && typeof settings['guild'] === 'string' ? settings['guild'] : 'Specialist';
+                    return `${slug.padEnd(35)} [${guild}] - ${displayName}`;
+                });
+                const selected = await ctx.ui.select(`Heretek Fleet (${matched.length} Available)`, items);
+                if (selected) {
+                    const chosenSlug = selected.split(/\s+/)[0];
+                    const charter = loadSpecialistCharter(chosenSlug);
+                    if (charter) {
+                        const settings = loadSpecialistSettings(chosenSlug);
+                        const displayName = settings && typeof settings['displayName'] === 'string' ? settings['displayName'] : chosenSlug;
+                        activeSpecialist = { slug: chosenSlug, displayName, charter };
+                        if (ctx.ui?.setStatus) {
+                            ctx.ui.setStatus('specialist', `Specialist: ${chosenSlug}`);
+                        }
+                        if (ctx.ui?.notify) {
+                            ctx.ui.notify(`Specialist Activated: ${displayName} [${chosenSlug}]`, 'info');
+                        }
+                    }
+                }
+            }
+            else {
+                let output = `=== HERETEK SPECIALIST FLEET (${matched.length} / ${specialists.length} Available) ===\n\n`;
+                for (const slug of matched) {
+                    const settings = loadSpecialistSettings(slug);
+                    const displayName = settings && typeof settings['displayName'] === 'string' ? settings['displayName'] : slug;
+                    const guild = settings && typeof settings['guild'] === 'string' ? settings['guild'] : 'Specialist';
+                    output += `• ${slug.padEnd(35)} [${guild}] - ${displayName}\n`;
+                }
+                output += `\nTo activate a specialist: /specialist <slug>`;
+                console.log(output);
+            }
         }
     });
-    // 3. Command: /specialist <slug>
+    // 4. Command: /specialist <slug>
     pi.registerCommand('specialist', {
         description: 'Switch active session system prompt and boundary to a chosen specialist',
         handler: async (args, ctx) => {
             const slug = args ? args.trim() : '';
             if (!slug) {
-                ctx.ui.error('Usage: /specialist <slug>. Run /fleet to see available specialists.');
+                if (ctx.ui?.notify) {
+                    ctx.ui.notify('Usage: /specialist <slug>. Run /fleet to see available specialists.', 'error');
+                }
+                else {
+                    console.error('Usage: /specialist <slug>. Run /fleet to see available specialists.');
+                }
                 return;
             }
             const charter = loadSpecialistCharter(slug);
             if (!charter) {
-                ctx.ui.error(`Specialist '${slug}' not found. Run /fleet to list valid slugs.`);
+                if (ctx.ui?.notify) {
+                    ctx.ui.notify(`Specialist '${slug}' not found. Run /fleet to list valid slugs.`, 'error');
+                }
+                else {
+                    console.error(`Specialist '${slug}' not found. Run /fleet to list valid slugs.`);
+                }
                 return;
             }
             const settings = loadSpecialistSettings(slug);
             const displayName = settings && typeof settings['displayName'] === 'string' ? settings['displayName'] : slug;
-            if (ctx.session && typeof ctx.session.setSystemPrompt === 'function') {
-                ctx.session.setSystemPrompt(charter);
+            activeSpecialist = { slug, displayName, charter };
+            if (ctx.ui?.setStatus) {
+                ctx.ui.setStatus('specialist', `Specialist: ${slug}`);
             }
-            ctx.ui.notify(`Specialist Activated: ${displayName} (${slug})`);
-            ctx.ui.writeBox(`Specialist Charter Mounted: ${displayName} [${slug}]\nAll domain boundaries, anti-slop directives, and self-correction protocols are now active.`);
+            if (ctx.ui?.notify) {
+                ctx.ui.notify(`Specialist Activated: ${displayName} [${slug}]`, 'info');
+            }
         }
     });
-    // 4. Tool: dispatch_specialist
+    // 5. Tool: dispatch_specialist
     pi.registerTool({
         name: 'dispatch_specialist',
         description: 'Delegates a bounded task to one of the 70 narrow specialists with isolated execution and returns the result.',
@@ -93,7 +161,10 @@ async function dispatchHandler({ specialistSlug, taskPrompt, workingDirectory },
         };
     }
     const cwd = workingDirectory && fs.existsSync(workingDirectory) ? workingDirectory : process.cwd();
-    ctx.logger.info(`Dispatching specialist '${specialistSlug}' in ${cwd}`);
+    const logger = ctx?.logger;
+    if (logger?.info) {
+        logger.info(`Dispatching specialist '${specialistSlug}' in ${cwd}`);
+    }
     const isWindows = process.platform === 'win32';
     const launcher = isWindows ? path.join(agentDir, 'launch.ps1') : path.join(agentDir, 'launch.sh');
     if (!fs.existsSync(launcher)) {

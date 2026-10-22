@@ -10,20 +10,33 @@ export interface SpecialistMetadata {
   refuses: string;
 }
 
-export interface PiToolContext {
-  ui: {
-    notify(msg: string): void;
-    writeBox(text: string): void;
-    error(msg: string): void;
-  };
-  session: {
-    setSystemPrompt?(prompt: string): void;
-  };
-  logger: {
-    debug(msg: string): void;
-    info(msg: string): void;
-    warn(msg: string): void;
-    error(msg: string): void;
+export interface ExtensionUIDialogOptions {
+  signal?: AbortSignal;
+  timeout?: number;
+}
+
+export interface ExtensionUIContext {
+  notify(message: string, type?: 'info' | 'warning' | 'error'): void;
+  select(title: string, options: string[], opts?: ExtensionUIDialogOptions): Promise<string | undefined>;
+  confirm(title: string, message: string, opts?: ExtensionUIDialogOptions): Promise<boolean>;
+  input(title: string, placeholder?: string, opts?: ExtensionUIDialogOptions): Promise<string | undefined>;
+  setStatus(key: string, text: string | undefined): void;
+  pasteToEditor?(text: string): void;
+}
+
+export interface ExtensionCommandContext {
+  ui: ExtensionUIContext;
+  hasUI: boolean;
+  cwd: string;
+  isIdle?(): boolean;
+}
+
+export interface BeforeAgentStartEvent {
+  type: 'before_agent_start';
+  systemPrompt?: string;
+  systemPromptOptions?: {
+    appendSystemPrompt?: string[];
+    [key: string]: unknown;
   };
 }
 
@@ -32,15 +45,15 @@ export interface PiRuntime {
     name: string,
     options: {
       description?: string;
-      handler: (args: string, ctx: PiToolContext) => Promise<void> | void;
+      handler: (args: string, ctx: ExtensionCommandContext) => Promise<void> | void;
     }
   ): void;
   registerTool(tool: {
     name: string;
     description: string;
     parameters: Record<string, unknown>;
-    handler?: (params: any, ctx: PiToolContext) => Promise<any> | any;
-    execute?: (params: any, ctx: PiToolContext) => Promise<any> | any;
+    handler?: (params: any, ctx: ExtensionCommandContext) => Promise<any> | any;
+    execute?: (params: any, ctx: ExtensionCommandContext) => Promise<any> | any;
   }): void;
-  on(event: string, handler: (ctx: PiToolContext) => Promise<void> | void): void;
+  on(event: string, handler: (event: any, ctx: ExtensionCommandContext) => Promise<any> | any): () => void;
 }
