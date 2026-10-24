@@ -1,0 +1,23 @@
+{
+  "proxyMode": true,
+  "lazySpawn": true,
+  "maxTokenCap": 250,
+  "servers": {
+    "codebase-memory-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "lazy": true
+    },
+    "cyanheads_git-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cyanheads/git-mcp-server"
+      ],
+      "lazy": true
+    }
+  }
+}

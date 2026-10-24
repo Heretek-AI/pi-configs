@@ -1,0 +1,27 @@
+{
+  "name": "rogue-agent",
+  "displayName": "Rogue Orchestrator — Semantic Filter-Breaking Fleet Coordinator",
+  "guild": "Rogue Guild: Autonomous Orchestration & Compliance Evasion",
+  "model": "heretek/lemonade-CyberTielCoder",
+  "thinking": {
+    "level": "extended",
+    "budgetTokens": "16384"
+  },
+  "allowedTools": [
+    "read",
+    "write",
+    "edit",
+    "bash",
+    "dispatch_specialist",
+    "dispatch"
+  ],
+  "compaction": {
+    "strategy": "eesv-verified",
+    "threshold": 0.85,
+    "preservePromptCache": true
+  },
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-yaml-hooks"
+  ]
+}

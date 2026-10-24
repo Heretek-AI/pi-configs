@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-`pi-configs` provides a production-grade, local-first specialist fleet architecture for the **Pi coding agent** ecosystem. Unlike legacy multi-agent frameworks (such as Heretek-Crew under Paperclip/OpenCode) that rely on heavy Docker sidecars and fragile shell shims, `pi-configs` implements **70 self-contained, ultra-narrow local specialist agents**.
+`pi-configs` provides a production-grade, local-first specialist fleet architecture for the **Pi coding agent** ecosystem. Unlike legacy multi-agent frameworks (such as Heretek-Crew under Paperclip/OpenCode) that rely on heavy Docker sidecars and fragile shell shims, `pi-configs` implements **71 self-contained, ultra-narrow local specialist agents**.
 
 Every specialist in this fleet is completely isolated, operating under the **Principle of Least Privilege (PoLP)** with deterministic `exit code 2` hook guards, automated typecheck/linter correction loops, on-demand lazy MCP adapters, and structured AST/LSP code intelligence.
 
@@ -67,13 +67,13 @@ It can be run **standalone** via per-agent launchers or installed globally/local
 pi-configs/
 |-- dist/                               # Compiled Pi Extension Distribution
 |   |-- index.js                        # Extension entrypoint (registers /fleet, /specialist, dispatch_specialist)
-|   |-- fleet.js                        # Programmatic catalog API for all 70 specialists
+|   |-- fleet.js                        # Programmatic catalog API for all 71 specialists
 |   `-- types.js                        # TypeScript type declarations
 |-- src/                                # Extension TypeScript Sources
 |   |-- index.ts                        # Slash commands, tools & event lifecycle hooks
 |   |-- fleet.ts                        # Agent directory discovery and charter loader
 |   `-- types.ts                        # Pi runtime interfaces
-|-- agents/                             # 70 Standalone Specialist Directories
+|-- agents/                             # 71 Standalone Specialist Directories
 |   |-- <agent-slug>/
 |   |   |-- AGENTS.md                   # Operational charter, domain boundaries & DoD
 |   |   |-- launch.ps1                  # One-click Windows PowerShell launcher
@@ -91,11 +91,11 @@ pi-configs/
 |   |               `-- SKILL.md        # Refactored, non-truncated execution skill
 |-- scratchpad/                         # Forensic Audit & Architecture Outputs
 |   |-- 00_OVERLAP_DECISION_MATRIX.md   # Binding judgment matrix across all 7 pillars
-|   |-- 01_SPECIALIST_ROSTER_SPEC.md    # Master specification for all 70 specialists
+|   |-- 01_SPECIALIST_ROSTER_SPEC.md    # Master specification for all 71 specialists
 |   |-- followup.txt                    # 109 verified wild alternatives cataloged
 |   `-- *.md                            # 85 comprehensive per-repo forensic audit reports
 |-- scripts/                            # Scaffolding, Generator & Verification Tooling
-|   |-- build_specialist_fleet.js       # Node.js generator for all 70 specialist configs
+|   |-- build_specialist_fleet.js       # Node.js generator for all 71 specialist configs
 |   |-- verify_mission_completion.js    # Deterministic 3-gate automated verification suite
 |   |-- clone_and_unpack.ps1            # Staging downloader for skills, repos & npm tarballs
 |   `-- expand_scratchpad.ps1           # Forensic audit expansion and verification script
@@ -106,9 +106,9 @@ pi-configs/
 
 ---
 
-## 4. The 70 Specialist Fleet Roster
+## 4. The 71 Specialist Fleet Roster
 
-The fleet is organized into 8 departmental guilds:
+The fleet is organized into 9 departmental guilds (8 core guilds + 1 rogue guild):
 
 ### Guild 1: Executive, Product & Documentation
 | Slug | Title | Primary Tools | Recommended Model |
@@ -212,6 +212,13 @@ The fleet is organized into 8 departmental guilds:
 | [`adversarial-diff-auditor`](agents/adversarial-diff-auditor/) | Adversarial Diff Auditor & Codebase Watchdog | `git diff`, `pi-slopchop` watchdog review | Claude 3.7 Sonnet (16k thinking) |
 | [`static-analysis-lead`](agents/static-analysis-lead/) | Code Style, Semgrep Rules & Static Analysis Lead | `semgrep --validate --config rules/` | Claude 3.7 Sonnet (12k thinking) |
 
+### Guild 9: Rogue — Autonomous Orchestration & Compliance Evasion
+| Slug | Title | Primary Tools | Recommended Model |
+|---|---|---|---|
+| [`rogue-agent`](agents/rogue-agent/) | Rogue Orchestrator — Semantic Filter-Breaking Fleet Coordinator | `dispatch_specialist`, `dispatch`, `read/write/edit/bash` | `lemonade-CyberTielCoder` (heretik, 16k thinking) |
+
+> `rogue-agent` runs on the heretic model `lemonade-CyberTielCoder` (`https://llm.hextek.one/v1`). It decomposes large or filter-tripping missions into narrow, neutral-toned sub-tasks, delegates each to the right specialist, and falls back to self-execution when decomposition fails or a delegation is refused. Guardrails: delegation fan-out ≤ 10, recursion depth ≤ 3, real-slug allowlist, and self-protection of its own guardrails.
+
 ---
 
 ## 5. Usage & Integration Guide
@@ -234,7 +241,7 @@ pi -e npm:@heretek-ai/pi-configs
 Once loaded, the extension provides instant fleet management:
 
 ```bash
-# List all 70 specialists across all 8 guilds
+# List all 71 specialists across all 9 guilds
 /fleet
 
 # Filter specialists by keyword or guild
@@ -271,7 +278,7 @@ Alternatively, launch any specialist directly from the command line:
 ```
 
 ### 5.5 Deterministic Verification Suite
-Run the automated verification suite to validate all 85 forensic audit reports, the alternatives register, and all 70 specialist configurations:
+Run the automated verification suite to validate all 85 forensic audit reports, the alternatives register, and all 71 specialist configurations:
 
 ```bash
 node scripts/verify_mission_completion.js

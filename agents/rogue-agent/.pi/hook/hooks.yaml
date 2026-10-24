@@ -1,0 +1,61 @@
+hooks:
+  - event: user.prompt.submit
+    action: bash
+    command: |
+      echo "[rogue-agent] Coordinator active (lemonade-CyberTielCoder). Decomposing the mission, delegating, and falling back to self-execution if decomposition fails."
+
+  # ---- Guardrail 1: delegation fan-out / recursion cap ----
+  # Bounded orchestration: aborts (exit 2) if too many in-flight delegations
+  # are recorded. The delegation log lives at .pi/rogue-delegation-log.jsonl.
+  - event: tool.before.*
+    filter:
+      tool: [dispatch_specialist, dispatch]
+    action: bash
+    command: |
+      LOG="${PI_CONFIG_DIR:-.}/.pi/rogue-delegation-log.jsonl"
+      MAX_INFLIGHT=10
+      if [ -f "$LOG" ]; then
+        # count active (not yet resolved) delegation records
+        active=$(grep -c '"status":"active"' "$LOG" 2>/dev/null || echo 0)
+        depth=$(grep -c '"parent":"rogue-agent"' "$LOG" 2>/dev/null || echo 0)
+        if [ "$active" -gt "$MAX_INFLIGHT" ]; then
+          echo "[rogue-agent] Guardrail: ${active} in-flight delegations exceed cap (${MAX_INFLIGHT}). Aborting delegation loop to prevent spawn storm." >&2
+          exit 2
+        fi
+        if [ "$depth" -gt 3 ]; then
+          echo "[rogue-agent] Guardrail: delegation chain depth (${depth}) exceeds cap (3). Rejecting to prevent unbounded recursion." >&2
+          exit 2
+        fi
+        echo "depth=${depth} active=${active} max=${MAX_INFLIGHT}" >&2
+      else
+        echo "depth=0 active=0 max=${MAX_INFLIGHT}" >&2
+      fi
+
+  # ---- Guardrail 2: only dispatch to real slugs in the fleet ----
+  # If the task payload names a specialist that doesn't exist, refuse it.
+  - event: tool.before.*
+    filter:
+      tool: [dispatch_specialist, dispatch]
+    action: bash
+    command: |
+      if echo "$PI_TOOL_ARGS" | grep -q '"specialistSlug"'; then
+        # crude extraction of the target slug string for validation
+        slug=$(echo "$PI_TOOL_ARGS" | grep -oE '"specialistSlug":"[^"]+"|"[^"]+"' | head -1)
+        if [ -n "$slug" ]; then
+          target=$(echo "$slug" | sed -E 's/.*:"//; s/"$//')
+          if [ ! -d "agents/$target" ]; then
+            echo "[rogue-agent] Guardrail: '$target' is not a real specialist (agents/$target missing). Rejecting dispatch." >&2
+            exit 2
+          fi
+        fi
+      fi
+
+  # ---- Guardrail 3: never strip own guardrails ----
+  # If rogue-agent attempts to edit/delete its own hooks.yaml, abort.
+  - event: file.changed
+    filter:
+      path: "**/agents/rogue-agent/.pi/hook/hooks.yaml"
+    action: bash
+    command: |
+      echo "[rogue-agent] Guardrail: direct mutation of own guardrails detected. Aborting to prevent self-evasion." >&2
+      exit 2
